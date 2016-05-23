@@ -13,7 +13,7 @@
 
 static int __init exemple_init (void)
 {
-	printk(KERN_INFO "%s: Hello...\n", THIS_MODULE->name);
+	printk(KERN_INFO "%s: Hello ...\n", THIS_MODULE->name);
 
 	return 0; 
 }

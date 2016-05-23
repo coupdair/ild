@@ -1,0 +1,7 @@
+#compile all modules
+make
+
+#load exemple_01
+sudo insmod exemple_01.ko
+dmesg | tail
+
