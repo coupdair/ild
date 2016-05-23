@@ -16,15 +16,15 @@
 	static enum hrtimer_restart exemple_htimer_function(struct hrtimer *);
 	static struct hrtimer exemple_htimer;
 
-	static int period_us = 1000;
-	module_param(period_us, int, 0644);
+	static int period_us=1000;
+	module_param(period_us, int, 0644);//CLI
 
 	static ktime_t exemple_period_kt;
 
 
 static int __init exemple_init (void)
 {
-	exemple_period_kt = ktime_set(0, 1000 * period_us);
+	exemple_period_kt = ktime_set(0, 1000*period_us);//ns
 
 	hrtimer_init (& exemple_htimer, CLOCK_REALTIME, HRTIMER_MODE_REL);
 	exemple_htimer.function = exemple_htimer_function;
@@ -58,12 +58,14 @@ static enum hrtimer_restart exemple_htimer_function(struct hrtimer * unused)
 		elapsed_us  = tv.tv_sec - tv_prev.tv_sec;
 		elapsed_us *= 1000000;
 		elapsed_us += tv.tv_usec - tv_prev.tv_usec;
-		if ((elapsed_min < 0) || (elapsed_us < elapsed_min)) {
+		if ((elapsed_min < 0) || (elapsed_us < elapsed_min))
+                {//new min
 			elapsed_min = elapsed_us;
 			printk(KERN_INFO "%s - %s: min=%lld  max=%lld\n",
 			       THIS_MODULE->name, __FUNCTION__, elapsed_min, elapsed_max);
 		}
-		if ((elapsed_max < 0) || (elapsed_us > elapsed_max)) {
+		if ((elapsed_max < 0) || (elapsed_us > elapsed_max))
+                {//new max
 			elapsed_max = elapsed_us;
 			printk(KERN_INFO "%s - %s: min=%lld  max=%lld\n",
 			       THIS_MODULE->name, __FUNCTION__, elapsed_min, elapsed_max);
@@ -78,7 +80,7 @@ static enum hrtimer_restart exemple_htimer_function(struct hrtimer * unused)
 	module_init(exemple_init);
 	module_exit(exemple_exit);
 
-	MODULE_DESCRIPTION("Jitter of a precise timer.");
+	MODULE_DESCRIPTION("Jitter of a precise timer (HighResolutionTimer).");
 	MODULE_AUTHOR("Christophe Blaess <Christophe.Blaess@Logilin.fr>");
 	MODULE_LICENSE("GPL");
 
