@@ -110,4 +110,19 @@ sudo insmod exemple_06.ko; sleep 1; sudo rmmod exemple_06.ko; dmesg | tail -n 50
 [16722.877025] ts_ckt.tv_sec = 1464008772, ts_ckt.tv_nsec = 235615391
 [16722.877028] ts_tod.tv_sec = 1464008772, ts_tod.tv_nsec = 241910781
 
+sudo insmod exemple_06.ko; sleep 1; sudo rmmod exemple_06.ko; dmesg | grep -e 'i=0600' -e 'i=1000' -A 4
+[17319.315348] i=0600:
+[17319.315349] tv_jif.tv_sec = 17196872, tv_jif.tv_usec = 860000
+[17319.315351] tv_tod.tv_sec = 1464009368, tv_tod.tv_usec = 171448
+[17319.315352] ts_ckt.tv_sec = 1464009368, ts_ckt.tv_nsec = 167593561
+[17319.315354] ts_tod.tv_sec = 1464009368, ts_tod.tv_nsec = 171449055
+--
+[17319.319459] i=1000:
+[17319.319460] tv_jif.tv_sec = 17196872, tv_jif.tv_usec = 864000
+[17319.319461] tv_tod.tv_sec = 1464009368, tv_tod.tv_usec = 175557
+[17319.319462] ts_ckt.tv_sec = 1464009368, ts_ckt.tv_nsec = 171593561
+[17319.319463] ts_tod.tv_sec = 1464009368, ts_tod.tv_nsec = 175557166
+bc
+(17319.319459-17319.315348)/400*1000000
+10us
 
