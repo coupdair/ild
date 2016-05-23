@@ -67,7 +67,47 @@ CONFIG_HZ_250=y
 # CONFIG_HZ_300 is not set
 # CONFIG_HZ_1000 is not set
 
-#load exemple_06 add array
+#load exemple_06 add loop
+sudo insmod exemple_06.ko; sleep 1; sudo rmmod exemple_06.ko; dmesg | tail -n 50
+...
+[16710.377207] exemple_06 - exemple_init():
+[16710.377208] tv_jif.tv_sec = 17196264, tv_jif.tv_usec = 440000
+[16710.377209] tv_tod.tv_sec = 1464008759, tv_tod.tv_usec = 752773
+[16710.377210] ts_ckt.tv_sec = 1464008759, ts_ckt.tv_nsec = 747615848
+[16710.377211] ts_tod.tv_sec = 1464008759, ts_tod.tv_nsec = 752773544
+...
+[16710.377916] exemple_06 - exemple_init():
+[16710.377917] tv_jif.tv_sec = 17196264, tv_jif.tv_usec = 440000
+[16710.377918] tv_tod.tv_sec = 1464008759, tv_tod.tv_usec = 753481
+[16710.377918] ts_ckt.tv_sec = 1464008759, ts_ckt.tv_nsec = 747615848
+[16710.377920] ts_tod.tv_sec = 1464008759, ts_tod.tv_nsec = 753481873
+[16710.377921] exemple_06 - exemple_init():
+[16710.377921] tv_jif.tv_sec = 17196264, tv_jif.tv_usec = 440000
+[16710.377922] tv_tod.tv_sec = 1464008759, tv_tod.tv_usec = 753486
+[16710.377928] ts_ckt.tv_sec = 1464008759, ts_ckt.tv_nsec = 747615848
+[16710.377935] ts_tod.tv_sec = 1464008759, ts_tod.tv_nsec = 753486787
+[16711.390018] exemple_06 - exemple_exit():
+[16711.390023] tv_jif.tv_sec = 17196265, tv_jif.tv_usec = 452000
+[16711.390024] tv_tod.tv_sec = 1464008760, tv_tod.tv_usec = 764719
+[16711.390026] ts_ckt.tv_sec = 1464008760, ts_ckt.tv_nsec = 759615811
+[16711.390027] ts_tod.tv_sec = 1464008760, ts_tod.tv_nsec = 764719512
 
+sudo insmod exemple_06.ko; sleep 1; sudo rmmod exemple_06.ko; dmesg | tail -n 50
+[16721.864251] exemple_06 - i=0:
+[16721.864253] tv_jif.tv_sec = 17196275, tv_jif.tv_usec = 916000
+[16721.864255] tv_tod.tv_sec = 1464008771, tv_tod.tv_usec = 230012
+[16721.864256] ts_ckt.tv_sec = 1464008771, ts_ckt.tv_nsec = 223615428
+[16721.864258] ts_tod.tv_sec = 1464008771, ts_tod.tv_nsec = 230012163
+[16721.864331] exemple_06 - exemple_init():
+[16721.864333] exemple_06 - i=999:
+[16721.864334] tv_jif.tv_sec = 17196275, tv_jif.tv_usec = 916000
+[16721.864336] tv_tod.tv_sec = 1464008771, tv_tod.tv_usec = 230098
+[16721.864337] ts_ckt.tv_sec = 1464008771, ts_ckt.tv_nsec = 223615428
+[16721.864339] ts_tod.tv_sec = 1464008771, ts_tod.tv_nsec = 230098515
+[16722.877010] exemple_06 - exemple_exit():
+[16722.877018] tv_jif.tv_sec = 17196276, tv_jif.tv_usec = 928000
+[16722.877022] tv_tod.tv_sec = 1464008772, tv_tod.tv_usec = 241910
+[16722.877025] ts_ckt.tv_sec = 1464008772, ts_ckt.tv_nsec = 235615391
+[16722.877028] ts_tod.tv_sec = 1464008772, ts_tod.tv_nsec = 241910781
 
 

@@ -23,8 +23,10 @@ static int __init exemple_init (void)
 	do_gettimeofday(& tv_tod);
 	ts_ckt = current_kernel_time();
 	getnstimeofday(& ts_tod);
-
+     if(i==0||i==999)
+     {
 	printk(KERN_INFO  "%s - %s():\n", THIS_MODULE->name, __FUNCTION__);
+	printk(KERN_INFO  "%s - i=%d:\n", THIS_MODULE->name, i);
 	printk(KERN_INFO "tv_jif.tv_sec = %ld, tv_jif.tv_usec = %ld\n",
 	                  tv_jif.tv_sec, tv_jif.tv_usec);
 	printk(KERN_INFO "tv_tod.tv_sec = %ld, tv_tod.tv_usec = %ld\n",
@@ -33,6 +35,7 @@ static int __init exemple_init (void)
 	                  ts_ckt.tv_sec, ts_ckt.tv_nsec);
 	printk(KERN_INFO "ts_tod.tv_sec = %ld, ts_tod.tv_nsec = %ld\n",
 	                  ts_tod.tv_sec, ts_tod.tv_nsec);
+     }
   }//i loop
 	return 0;
 }
