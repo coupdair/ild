@@ -139,3 +139,18 @@ gcc -o exemple_06_user exemple_06_user.c
 ##user   500ns
 ###150ns use/kernel
 
+
+#load exemple_07 timer
+sudo insmod exemple_07.ko ; watch 'dmesg | tail'
+[20637.019584] exemple_07 - exemple_timer_function: time_of_day=1464012848.094891
+[20638.020960] exemple_07 - exemple_timer_function: time_of_day=1464012849.094912
+[20639.022297] exemple_07 - exemple_timer_function: time_of_day=1464012850.094896
+[20640.023648] exemple_07 - exemple_timer_function: time_of_day=1464012851.094895
+[20641.024993] exemple_07 - exemple_timer_function: time_of_day=1464012852.094883
+[20642.026373] exemple_07 - exemple_timer_function: time_of_day=1464012853.094908
+[20643.027745] exemple_07 - exemple_timer_function: time_of_day=1464012854.094925
+[20644.029101] exemple_07 - exemple_timer_function: time_of_day=1464012855.094926
+sudo rmmod exemple_07.ko
+
+
+

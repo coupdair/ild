@@ -18,11 +18,11 @@
 
 static int __init exemple_init (void)
 {
-	init_timer (& exemple_timer);
+	init_timer (&exemple_timer);
 	exemple_timer.function = exemple_timer_function;
-	exemple_timer.data = (unsigned long) (& exemple_timer);
-	exemple_timer.expires = jiffies + HZ;
-	add_timer(& exemple_timer);
+	exemple_timer.data = (unsigned long) (&exemple_timer); //self pointing
+	exemple_timer.expires = jiffies + 1*HZ;//1 second in jiffies unit
+	add_timer(&exemple_timer);
 
 	return 0;
 }
@@ -30,7 +30,7 @@ static int __init exemple_init (void)
 
 static void __exit exemple_exit (void)
 {
-	del_timer(& exemple_timer);
+	del_timer(&exemple_timer);
 }
 
 
@@ -51,7 +51,7 @@ static void exemple_timer_function(unsigned long arg)
 	module_init(exemple_init);
 	module_exit(exemple_exit);
 
-	MODULE_DESCRIPTION("Periodic message (current time).");
+	MODULE_DESCRIPTION("Periodic message (current time) each second.");
 	MODULE_AUTHOR("Christophe Blaess <Christophe.Blaess@Logilin.fr>");
 	MODULE_LICENSE("GPL");
 
