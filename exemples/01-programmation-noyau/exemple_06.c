@@ -16,7 +16,9 @@ static int __init exemple_init (void)
 {
 	struct timeval  tv_jif, tv_tod;
 	struct timespec ts_ckt, ts_tod;
-
+  int i=0;
+  for(i=0;i<1024;i++)
+  {
 	jiffies_to_timeval(jiffies, & tv_jif);
 	do_gettimeofday(& tv_tod);
 	ts_ckt = current_kernel_time();
@@ -31,6 +33,7 @@ static int __init exemple_init (void)
 	                  ts_ckt.tv_sec, ts_ckt.tv_nsec);
 	printk(KERN_INFO "ts_tod.tv_sec = %ld, ts_tod.tv_nsec = %ld\n",
 	                  ts_tod.tv_sec, ts_tod.tv_nsec);
+  }//i loop
 	return 0;
 }
 
