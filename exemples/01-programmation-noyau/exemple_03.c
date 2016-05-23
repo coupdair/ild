@@ -28,7 +28,7 @@ void exemple_03_hello(int number)
 	printk (KERN_INFO "Hello, the number is %d\n", number);
 }
 
-EXPORT_SYMBOL(exemple_03_hello);
+EXPORT_SYMBOL(exemple_03_hello);//<=> function library
 
 
 	module_init(exemple_init);

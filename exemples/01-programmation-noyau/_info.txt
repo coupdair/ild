@@ -37,3 +37,21 @@ sudo insmod exemple_02.ko param_table=1,2,3 label=TABLE; dmesg | tail
 [ 9454.573222] exemple_02: nb_items = 3
 [ 9454.573223] exemple_02: Table = 1 2 3 
 
+#load exemple_03 (library) and 4
+##hand loading
+sudo insmod exemple_04.ko; dmesg | tail
+[10001.307989] exemple_04: Unknown symbol exemple_03_hello (err 0)
+sudo insmod exemple_03.ko; sudo insmod exemple_04.ko; dmesg | tail
+[10015.424785] Hello, the number is 10
+sudo rmmod exemple_03.ko
+rmmod: ERROR: Module exemple_03 is in use by: exemple_04
+sudo rmmod exemple_04.ko; sudo rmmod exemple_03.ko
+##auto loading
+sudo mkdir /lib/modules/3.13.0-53-generic/extra
+sudo cp -p exemple_03.ko exemple_04.ko /lib/modules/3.13.0-53-generic/extra/
+sudo depmod
+cat /lib/modules/3.13.0-53-generic/modules.dep
+sudo modprobe exemple_04
+sudo modprobe -r exemple_04
+
+
