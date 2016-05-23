@@ -19,4 +19,21 @@ sudo insmod exemple_02.ko input=123 label=HELLO; dmesg | tail
 [ 9284.517591] exemple_02: example_label = HELLO
 [ 9284.517593] exemple_02: nb_items = 0
 [ 9284.517595] exemple_02: Table = 
+modinfo exemple_02.ko
+filename:       /home/logilin/ild/exemples/01-programmation-noyau/exemple_02.ko
+license:        GPL
+author:         Christophe Blaess <Christophe.Blaess@Logilin.fr>
+description:    Parameters on the insmod command line
+srcversion:     0EB7A64C7F7BB9DD00749F3
+depends:        
+vermagic:       3.13.0-53-generic SMP mod_unload modversions 
+parm:           input:The input channel number. (int)
+parm:           label:The label to use during communication. (charp)
+parm:           param_table:array of int
+sudo rmmod exemple_02.ko
+sudo insmod exemple_02.ko param_table=1,2,3 label=TABLE; dmesg | tail
+[ 9454.573216] exemple_02: input = 0
+[ 9454.573220] exemple_02: example_label = TABLE
+[ 9454.573222] exemple_02: nb_items = 3
+[ 9454.573223] exemple_02: Table = 1 2 3 
 
