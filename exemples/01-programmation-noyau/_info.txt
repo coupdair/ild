@@ -126,5 +126,16 @@ bc
 (17319.319459-17319.315348)/400*1000000
 10us
 
-24x gettimeofday in a tick
+#array
+24x gettimeofday in a tick, i.e. 50ns
+
+#in user space
+gcc -o exemple_06_user exemple_06_user.c
+./exemple_06_user
+#almost the same
+
+#on Beagle Bone Black
+##kernel 350ns
+##user   500ns
+###150ns use/kernel
 
