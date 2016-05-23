@@ -162,3 +162,19 @@ sudo insmod exemple_08.ko ; watch 'dmesg | tail'
 [21426.141445] exemple_08 - exemple_htimer_function: min=72  max=2545
 sudo rmmod exemple_08.ko
 
+#load exemple_09 task
+sudo -i
+insmod exemple_09.ko
+echo $$
+14308
+dmesg | tail -n 1
+[22691.576878] exemple_09 - exemple_init(): PID = 14323  PPID = 14308
+rmmod exemple_09.ko
+[22832.877375] exemple_09 - exemple_exit(): PID = 14329, PPID = 14308
+
+ID
+14323 = insmod
+14308 = bash
+14329 = rmmod
+
+s
