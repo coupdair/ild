@@ -14,27 +14,20 @@
 
 static int __init exemple_init (void)
 {
-	struct timeval  tv_jif, tv_tod;
-	struct timespec ts_ckt, ts_tod;
+  #define SIZE 64
+	struct timeval  tv_tod[SIZE];
   int i;
-  for(i=0;i<1024;i++)
+  for(i=0;i<SIZE;i++)
   {
-	jiffies_to_timeval(jiffies, & tv_jif);
-	do_gettimeofday(& tv_tod);
-	ts_ckt = current_kernel_time();
-	getnstimeofday(& ts_tod);
-
-	printk(KERN_INFO  "%s - %s():\n", THIS_MODULE->name, __FUNCTION__);
-    printk(KERN_INFO  "i=%04d:\n", i);
-	printk(KERN_INFO "tv_jif.tv_sec = %ld, tv_jif.tv_usec = %ld\n",
-	                  tv_jif.tv_sec, tv_jif.tv_usec);
-	printk(KERN_INFO "tv_tod.tv_sec = %ld, tv_tod.tv_usec = %ld\n",
-	                  tv_tod.tv_sec, tv_tod.tv_usec);
-	printk(KERN_INFO "ts_ckt.tv_sec = %ld, ts_ckt.tv_nsec = %ld\n",
-	                  ts_ckt.tv_sec, ts_ckt.tv_nsec);
-	printk(KERN_INFO "ts_tod.tv_sec = %ld, ts_tod.tv_nsec = %ld\n",
-	                  ts_tod.tv_sec, ts_tod.tv_nsec);
+    do_gettimeofday(&tv_tod[i]);
   }//i loop
+	printk(KERN_INFO  "%s - %s():\n", THIS_MODULE->name, __FUNCTION__);
+  for(i=0;i<SIZE;i++)
+  {
+	printk(KERN_INFO "%04d: tv_tod.tv_sec = %ld, tv_tod.tv_usec = %ld\n",
+	                  i, tv_tod[i].tv_sec, tv_tod[i].tv_usec);
+  }//i loop
+
 	return 0;
 }
 
