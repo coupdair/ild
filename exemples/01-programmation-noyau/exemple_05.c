@@ -22,7 +22,7 @@ static int __init exemple_init (void)
 
 static void __exit exemple_exit (void)
 {
-	printk(KERN_INFO "%s: HZ=%d, jiffies=%ld\n",
+	printk(KERN_INFO "%s: HZ=%d, jiffies=%ld.\n",
 	       THIS_MODULE->name, HZ, jiffies);
 }
 

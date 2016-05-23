@@ -56,3 +56,15 @@ sudo modprobe -r exemple_04
 
 #Makefile
 
+#load exemple_05 tick
+sudo insmod exemple_05.ko 
+dmesg | tail
+[15014.102996] exemple_05: HZ=250, jiffies=4298642403
+sudo rmmod exemple_05.ko
+grep HZ /boot/config-3.13.0-53-generic 
+# CONFIG_HZ_100 is not set
+CONFIG_HZ_250=y
+# CONFIG_HZ_300 is not set
+# CONFIG_HZ_1000 is not set
+
+
