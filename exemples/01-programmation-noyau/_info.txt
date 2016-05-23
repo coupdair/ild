@@ -4,4 +4,19 @@ make
 #load exemple_01
 sudo insmod exemple_01.ko
 dmesg | tail
+[ 8525.285514] exemple_01: module verification failed: signature and/or  required key missing - tainting kernel
+[ 8525.285814] exemple_01: Hello ...
+
+#load exemple_02
+sudo insmod exemple_02.ko; dmesg | tail
+[ 9162.762382] exemple_02: input = 0
+[ 9162.762387] exemple_02: example_label = exemple_02
+[ 9162.762388] exemple_02: nb_items = 0
+[ 9162.762389] exemple_02: Table =
+sudo rmmod exemple_02.ko
+sudo insmod exemple_02.ko input=123 label=HELLO; dmesg | tail
+[ 9284.517585] exemple_02: input = 123
+[ 9284.517591] exemple_02: example_label = HELLO
+[ 9284.517593] exemple_02: nb_items = 0
+[ 9284.517595] exemple_02: Table = 
 
