@@ -152,5 +152,13 @@ sudo insmod exemple_07.ko ; watch 'dmesg | tail'
 [20644.029101] exemple_07 - exemple_timer_function: time_of_day=1464012855.094926
 sudo rmmod exemple_07.ko
 
-
+#load exemple_08 HighResolutionTimer
+sudo insmod exemple_08.ko ; watch 'dmesg | tail'
+[21415.472391] exemple_08 - exemple_htimer_function: min=950  max=1044
+[21415.743640] exemple_08 - exemple_htimer_function: min=950  max=1049
+[21415.995336] exemple_08 - exemple_htimer_function: min=950  max=2545
+[21415.995788] exemple_08 - exemple_htimer_function: min=454  max=2545
+[21422.081981] exemple_08 - exemple_htimer_function: min=406  max=2545
+[21426.141445] exemple_08 - exemple_htimer_function: min=72  max=2545
+sudo rmmod exemple_08.ko
 
