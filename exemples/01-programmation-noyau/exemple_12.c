@@ -52,9 +52,9 @@ static ssize_t exemple_read (struct file * filp, char __user * u_buffer, size_t 
 	snprintf(buffer, 128, "PID=%u, PPID=%u, Name=%s\n",
 	         current->pid, 
 	         current->real_parent->pid,
-	         current->comm);
+	         current->comm);//this should not change betteewn calls, better create open function.
 
-	nb = strlen(buffer) - (*offset);
+	nb = strlen(buffer)-(*offset);//buffer-allready_readed = next_to_read sizes
 	if (nb <= 0) {
 		printk(" -> 0\n");
 		return 0;
@@ -63,7 +63,7 @@ static ssize_t exemple_read (struct file * filp, char __user * u_buffer, size_t 
 	if (nb > max)
 		nb = max;
 
-	if (copy_to_user(u_buffer, & (buffer[*offset]), nb) != 0) {
+	if (copy_to_user(u_buffer, &(buffer[*offset]), nb) != 0) {
 		printk(" -> error\n");
 		return -EFAULT;
 	}
