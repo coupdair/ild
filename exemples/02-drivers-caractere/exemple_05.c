@@ -17,7 +17,9 @@
 
 	#include <asm/uaccess.h>
 
+  int compteur=-1;
 
+	static int     example_open  (struct inode * ind, struct file * filp);
 	static ssize_t example_read  (struct file * filp, char * buffer,
 	                              size_t length, loff_t * offset);
 
@@ -25,6 +27,8 @@
 	static struct file_operations fops_exemple = {
 		.owner   =  THIS_MODULE,
 		.read    =  example_read,
+                .open    =  example_open,
+
 	};
 
 
@@ -46,6 +50,12 @@ static void __exit exemple_exit (void)
 	misc_deregister(& exemple_misc_driver);
 }
 
+static int example_open(struct inode * ind, struct file * filp)
+{
+	printk(KERN_INFO "%s - %s()\n", THIS_MODULE->name, __FUNCTION__);
+  ++compteur;
+	return 0;
+}
 
 static ssize_t example_read(struct file * filp, char * buffer,
                             size_t length, loff_t * offset)
@@ -53,9 +63,7 @@ static ssize_t example_read(struct file * filp, char * buffer,
 	char chaine[128];
 	int lg;
 
-	snprintf(chaine, 128, "PID=%u, PPID=%u\n",
-	                current->pid,
-	                current->real_parent->pid);
+	snprintf(chaine, 128, "compteur=%u\n",compteur);
 
 	lg = strlen(chaine) - (*offset);
 
