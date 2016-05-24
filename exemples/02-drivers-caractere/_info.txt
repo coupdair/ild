@@ -36,3 +36,8 @@ cat: /dev/exemple_04: Argument invalide
 sudo insmod exemple_05.ko; sudo cat /dev/exemple_05 ; sudo rmmod exemple_05.ko
 PID=25106, PPID=25105
 
+#io Ctrl
+./exemple_ioctl
+./exemple_ioctl.py
+
+

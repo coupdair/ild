@@ -26,7 +26,8 @@ int main(int argc, char * argv[])
 		exit(1);
 	}
 
-	if (ioctl(fd, CDROMEJECT, 0) < 0) {
+	if (ioctl(fd, CDROMEJECT, 0) < 0)
+        {
 		perror("ioctl(CDROMEJECT)");
 		exit(1);
 	}
