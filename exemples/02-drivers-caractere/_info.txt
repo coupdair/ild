@@ -1,0 +1,14 @@
+#/dev
+ls /dev -lah
+cat /proc/devices 
+ls /dev/urandom -lah
+##major, minor
+sudo -s
+mknod /dev/aleatoire c 1 9
+hexdump /dev/aleatoire
+
+#example_01 get major
+sudo insmod exemple_01.ko; cat /proc/devices | grep exemple_01; sudo rmmod exemple_01.ko
+248 exemple_01
+#example_02
+

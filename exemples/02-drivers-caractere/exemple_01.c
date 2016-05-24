@@ -14,7 +14,7 @@
 	static dev_t exemple_dev = MKDEV(0, 0);
 
 	static int exemple_major = 0;
-	module_param_named(major, exemple_major, int, 0644);
+	module_param_named(major, exemple_major, int, 0644);//get major on CLI
 
 
 static int __init exemple_init (void)
@@ -22,10 +22,10 @@ static int __init exemple_init (void)
 	int err;
 
 	if (exemple_major == 0) {
-		err = alloc_chrdev_region(& exemple_dev, 0, 1, THIS_MODULE->name);
+		err = alloc_chrdev_region(&exemple_dev, 0, 1, THIS_MODULE->name);//dynamic
 	} else {
 		exemple_dev = MKDEV(exemple_major, 0);
-		err = register_chrdev_region(exemple_dev, 1, THIS_MODULE->name);
+		err = register_chrdev_region(exemple_dev, 1, THIS_MODULE->name);//static
 	}
 
 	if (err < 0)
