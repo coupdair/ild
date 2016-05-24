@@ -40,4 +40,15 @@ PID=25106, PPID=25105
 ./exemple_ioctl
 ./exemple_ioctl.py
 
+#example_06 IOControl
+sudo insmod exemple_06.ko; sudo cat /dev/exemple_06 ; sudo rmmod exemple_06.ko
+[sudo] password for logilin: 
+PID= 25768, PPID= 25767
+
+sudo insmod exemple_06.ko; sudo cat /dev/exemple_06; sudo ./ioctl_exemple_06 /dev/exemple_06 0; sudo cat /dev/exemple_06; sudo ./ioctl_exemple_06 /dev/exemple_06 1; sudo cat /dev/exemple_06; sudo rmmod exemple_06.ko
+PID= 25795, PPID= 25794
+0
+PID= 25799
+1
+PID= 25803, PPID= 25802
 

@@ -23,13 +23,13 @@
 	static ssize_t exemple_read  (struct file * filp, char * buffer,
 	                              size_t length, loff_t * offset);
 
-	static long    exemple_ioctl (struct file * filp,
+	static long    example_ioctl (struct file * filp,
 	                              unsigned int cmd, unsigned long arg);
 
 	static struct file_operations fops_exemple = {
 		.owner   =  THIS_MODULE,
 		.read    =  exemple_read,
-		.unlocked_ioctl   =  exemple_ioctl,
+		.unlocked_ioctl   =  example_ioctl,
 	};
 
 	static struct miscdevice exemple_misc_driver = {
@@ -82,20 +82,20 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
 }
 
 
-static long exemple_ioctl (struct file * filp,
+static long example_ioctl (struct file * filp,
                            unsigned int cmd,
                            unsigned long arg)
 {
-	if (_IOC_TYPE(cmd) != EXEMPLE_IOCTL_MAGIC)
+	if (_IOC_TYPE(cmd)!=EXEMPLE_IOCTL_MAGIC)
 		return -ENOTTY;
 
 	switch(_IOC_NR(cmd)) {
-		case EXEMPLE_GET_PPID_FLAG :
-			if (copy_to_user((void *) arg, & exemple_ppid_flag, sizeof(exemple_ppid_flag)) != 0)
+		case EXEMPLE_GET_PPID_FLAG:
+			if (copy_to_user((void *) arg, &exemple_ppid_flag, sizeof(exemple_ppid_flag)) != 0)
 				return -EFAULT;
 			break;
-		case EXEMPLE_SET_PPID_FLAG :
-			if (copy_from_user(& exemple_ppid_flag, (void *) arg, sizeof(exemple_ppid_flag)) != 0)
+		case EXEMPLE_SET_PPID_FLAG:
+			if (copy_from_user(&exemple_ppid_flag, (void *) arg, sizeof(exemple_ppid_flag)) != 0)
 				return -EFAULT;
 			break;
 		default :
