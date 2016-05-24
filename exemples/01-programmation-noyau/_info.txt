@@ -177,4 +177,11 @@ ID
 14308 = bash
 14329 = rmmod
 
-s
+#/proc (on the fly)
+watch -n 0,1 'cat /proc/interrupts'
+## move mouse or type keyboard
+#load exemple_10
+
+
+
+
