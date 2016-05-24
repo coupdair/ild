@@ -57,11 +57,14 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
 	unsigned long delay;
 
 	if (mutex_lock_interruptible(&mutex_current_pid) != 0)
+        {
+        	printk(KERN_INFO "%s - %s() interrupted (signal received)\n", THIS_MODULE->name, __FUNCTION__);
 		return -ERESTARTSYS;//return straightforward to treat an other signal
+        }
 
 	current_pid = current->pid;
 
-	delay = jiffies + 10;
+	delay = jiffies + 100;
 	while (time_before(jiffies, delay))
 		schedule();
 

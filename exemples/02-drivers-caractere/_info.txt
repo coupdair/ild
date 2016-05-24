@@ -80,4 +80,9 @@ sudo cat /dev/exemple_07
 xxxxxxxxxxx
 sudo rmmod /dev/exemple_07
 
+#example_08 MutEx interuptible
+make; sudo insmod exemple_08.ko
+sudo cat /dev/exemple_08 & sudo cat /dev/exemple_08
+sudo rmmod exemple_08.ko
+
 
