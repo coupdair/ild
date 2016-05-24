@@ -34,8 +34,8 @@
 		    .fops           = & fops_exemple,
 	};
 
-	static volatile int current_pid = 0;
-	DEFINE_MUTEX(mtx_current_pid);
+	static volatile int current_pid=0;
+	DEFINE_MUTEX(mutex_current_pid);
 
 
 static int __init exemple_init (void)
@@ -56,8 +56,8 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
 	char k_buffer[2];
 	unsigned long delay;
 
-	if (mutex_lock_interruptible(& mtx_current_pid) != 0)
-		return -ERESTARTSYS;
+	if (mutex_lock_interruptible(&mutex_current_pid) != 0)
+		return -ERESTARTSYS;//return straightforward to treat an other signal
 
 	current_pid = current->pid;
 
@@ -70,7 +70,7 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
 	else
 		strcpy(k_buffer, "#");
 
-	mutex_unlock(& mtx_current_pid);
+	mutex_unlock(& mutex_current_pid);
 
 	if (length < 2)
 		return -ENOMEM;
