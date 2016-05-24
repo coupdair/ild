@@ -17,6 +17,7 @@
 
 	#include <asm/uaccess.h>
 
+  //not safe, need to add mutex for access to 'compteur'
   int compteur=-1;
 
 	static int     example_open  (struct inode * ind, struct file * filp);
