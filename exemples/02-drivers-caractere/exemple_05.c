@@ -18,13 +18,13 @@
 	#include <asm/uaccess.h>
 
 
-	static ssize_t exemple_read  (struct file * filp, char * buffer,
+	static ssize_t example_read  (struct file * filp, char * buffer,
 	                              size_t length, loff_t * offset);
 
 
 	static struct file_operations fops_exemple = {
 		.owner   =  THIS_MODULE,
-		.read    =  exemple_read ,
+		.read    =  example_read,
 	};
 
 
@@ -47,7 +47,7 @@ static void __exit exemple_exit (void)
 }
 
 
-static ssize_t exemple_read(struct file * filp, char * buffer,
+static ssize_t example_read(struct file * filp, char * buffer,
                             size_t length, loff_t * offset)
 {
 	char chaine[128];
