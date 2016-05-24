@@ -44,9 +44,9 @@ static int __init exemple_init (void)
 	if (err < 0)
 		return err;
 
-	cdev_init(& exemple_cdev, & fops_exemple);
+	cdev_init(&exemple_cdev, &fops_exemple);
 
-	err = cdev_add(& exemple_cdev, exemple_dev, 1);
+	err = cdev_add(&exemple_cdev, exemple_dev, 1);
 	if (err != 0) {
 		unregister_chrdev_region(exemple_dev, 1);
 		return err;
