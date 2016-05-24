@@ -29,3 +29,7 @@ cat: /dev/exemple_04: Argument invalide
 [34425.236527] exemple_04 - exemple_open()
 [34425.236809] exemple_04 - exemple_release()
 
+#name of driver in /dev/... or /sys/... by C line, i.e. auto file name:
+		    .name           = THIS_MODULE->name,
+
+
