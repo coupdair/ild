@@ -24,12 +24,12 @@
 
 	static struct file_operations fops_exemple = {
 		.owner   =  THIS_MODULE,
-		.read    =  exemple_read,
+		.read    =  exemple_read ,
 	};
 
 
 	static struct miscdevice exemple_misc_driver = {
-		    .minor          = MISC_DYNAMIC_MINOR,
+		    .minor          = MISC_DYNAMIC_MINOR ,
 		    .name           = THIS_MODULE->name,
 		    .fops           = & fops_exemple,
 	};
