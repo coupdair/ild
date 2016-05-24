@@ -181,7 +181,10 @@ ID
 watch -n 0,1 'cat /proc/interrupts'
 ## move mouse or type keyboard
 #load exemple_10
-
-
+sudo insmod exemple_10.ko ; ls /proc/exemple_10; sudo rmmod exemple_10.ko; ls /proc/exemple_10
+/proc/exemple_10
+ls: impossible d'accéder à /proc/exemple_10: Aucun fichier ou dossier de ce type
+#load exemple_11
+sudo insmod exemple_11.ko ; ls /proc/exemple_11;cat /proc/exemple_11; sudo rmmod exemple_11.ko
 
 

@@ -15,11 +15,11 @@
 	#include <asm/uaccess.h>
 
 
-	static ssize_t exemple_read (struct file *, char __user *, size_t, loff_t *);
+	static ssize_t example_read (struct file *, char __user *, size_t, loff_t *);
 
-	static const struct file_operations exemple_fops = {
+	static const struct file_operations example_fops = {
 		.owner	= THIS_MODULE,
-		.read   = exemple_read,
+		.read   = example_read,
 	};
 
 
@@ -27,7 +27,7 @@ static int __init exemple_init (void)
 {
 	struct proc_dir_entry * entry;
 
-	entry = proc_create(THIS_MODULE->name, S_IFREG | 0644, NULL, & exemple_fops);
+	entry = proc_create(THIS_MODULE->name, S_IFREG | 0644, NULL, &example_fops);
 	if (entry == NULL)
 		return -EBUSY;
 
@@ -41,7 +41,7 @@ static void __exit exemple_exit (void)
 }
 
 
-static ssize_t exemple_read(struct file * filp, char __user * u_buffer, size_t max, loff_t * offset)
+static ssize_t example_read(struct file * filp, char __user * u_buffer, size_t max, loff_t * offset)
 {
 	char buffer[128];
 	int  nb;

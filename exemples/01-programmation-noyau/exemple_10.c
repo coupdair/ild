@@ -14,7 +14,7 @@
 
 
 	static const struct file_operations exemple_fops = {
-		.owner	= THIS_MODULE,
+		.owner=THIS_MODULE, //owner is the driver
 	};
 
 
@@ -22,7 +22,7 @@ static int __init exemple_init (void)
 {
 	struct proc_dir_entry * entry;
 
-	entry = proc_create(THIS_MODULE->name, S_IFREG | 0644, NULL, & exemple_fops);
+	entry = proc_create(THIS_MODULE->name, S_IFREG | 0644, NULL, &exemple_fops);// REGular InterFace, NULL for /proc
 	if (entry == NULL)
 		return -EBUSY;
 
