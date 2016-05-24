@@ -186,5 +186,11 @@ sudo insmod exemple_10.ko ; ls /proc/exemple_10; sudo rmmod exemple_10.ko; ls /p
 ls: impossible d'accéder à /proc/exemple_10: Aucun fichier ou dossier de ce type
 #load exemple_11
 sudo insmod exemple_11.ko ; ls /proc/exemple_11;cat /proc/exemple_11; sudo rmmod exemple_11.ko
-
+#load exemple_12
+sudo insmod exemple_12.ko ; ls /proc/exemple_12;cat /proc/exemple_12; sudo rmmod exemple_12.ko; sync; dmesg | tail -n 4
+PID=20072, PPID=6410, Name=cat
+[29859.437788] exemple_12 - exemple_open
+[29859.437822] exemple_12 - exemple_read(ffff880144e0c500, 0000000001934000, 65536, 0) -> 31
+[29859.437878] exemple_12 - exemple_read(ffff880144e0c500, 0000000001934000, 65536, 31) -> 0
+[29859.437893] exemple_12 - exemple_release
 

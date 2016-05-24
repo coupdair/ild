@@ -73,6 +73,7 @@ static ssize_t exemple_read (struct file * filp, char __user * u_buffer, size_t 
 
 static int exemple_open (struct inode *ind, struct file * filp)
 {
+  printk(KERN_INFO "%s - %s\n", THIS_MODULE->name, __FUNCTION__);
   filp->private_data=kmalloc(128, GFP_KERNEL);
   if(filp->private_data==NULL)
 	return -ENOMEM;
@@ -84,6 +85,7 @@ static int exemple_open (struct inode *ind, struct file * filp)
 }
 static int exemple_release (struct inode *ind, struct file * filp)
 {
+  printk(KERN_INFO "%s - %s\n", THIS_MODULE->name, __FUNCTION__);
   kfree(filp->private_data);
   return 0;
 }
