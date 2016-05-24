@@ -84,5 +84,7 @@ sudo rmmod /dev/exemple_07
 make; sudo insmod exemple_08.ko
 sudo cat /dev/exemple_08 & sudo cat /dev/exemple_08
 sudo rmmod exemple_08.ko
+dmesg | tail -n 1
+[45790.236333] exemple_08 - exemple_read() interrupted (signal received)
 
 
