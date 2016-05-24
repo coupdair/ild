@@ -53,6 +53,24 @@ PID= 25799
 PID= 25803, PPID= 25802
 
 #TP05
+##compteur++
+sudo insmod exemple_05.ko; sudo cat /dev/exemple_05; sudo cat /dev/exemple_05; sudo cat /dev/exemple_05; sudo cat /dev/exemple_05; sudo rmmod /dev/exemple_05
+compteur=0
+compteur=1
+compteur=2
+compteur=3
 
+##compteur ++set
+sudo -s
+insmod exemple_05.ko ; cat /dev/exemple_05; cat /dev/exemple_05; cat /dev/exemple_05;
+compteur=0
+compteur=1
+compteur=2
+echo 123 > /dev/exemple_05; cat /dev/exemple_05
+compteur=123
+cat /dev/exemple_05; cat /dev/exemple_05; cat /dev/exemple_05; rmmod exemple_05.ko
+compteur=124
+compteur=125
+compteur=126
 
 

@@ -22,13 +22,15 @@
 	static int     example_open  (struct inode * ind, struct file * filp);
 	static ssize_t example_read  (struct file * filp, char * buffer,
 	                              size_t length, loff_t * offset);
+	static ssize_t example_write (struct file * filp, const char * buffer,
+	                              size_t length, loff_t * offset);
 
 
 	static struct file_operations fops_exemple = {
 		.owner   =  THIS_MODULE,
 		.read    =  example_read,
                 .open    =  example_open,
-
+		.write   =  example_write,
 	};
 
 
@@ -79,6 +81,23 @@ static ssize_t example_read(struct file * filp, char * buffer,
 	*offset += lg;
 
 	return lg;
+}
+static ssize_t example_write(struct file * filp, const char * buffer,
+                             size_t length, loff_t * offset)
+{
+	char k_buffer[80];
+	int val;
+
+	if (length > 79)
+		return -EINVAL;
+	if (copy_from_user(k_buffer, buffer, length) != 0)
+		return -EFAULT;
+	if (sscanf(k_buffer, "%d", & val) != 1)
+		return -EINVAL;
+
+  compteur=--val;
+
+	return length;
 }
 
 
