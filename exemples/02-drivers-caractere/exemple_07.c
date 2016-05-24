@@ -33,7 +33,7 @@
 		    .fops           = & fops_exemple,
 	};
 
-	static volatile int current_pid;
+	static volatile int current_pid;//global variable for driver (concurrent access may be possible !)
 
 
 static int __init exemple_init (void)
@@ -56,15 +56,15 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
 
 	current_pid = current->pid;
 
-	// 10 ticks loop to force collision between simultaneous system calls.
+	//10 ticks loop to force collision between simultaneous system calls.
 	delay = jiffies + 10;
 	while (time_before(jiffies, delay))
-		schedule(); // On a preemptible system, cpu_relax() works as well.
+		schedule(); //on a preemptible system, cpu_relax() works as well.
 
-	if (current_pid == current->pid)
-		strcpy(k_buffer, ".");
+	if (current_pid==current->pid)
+		strcpy(k_buffer, "v");
 	else
-		strcpy(k_buffer, "#");
+		strcpy(k_buffer, "x");
 
 	if (length < 2)
 		return -ENOMEM;
