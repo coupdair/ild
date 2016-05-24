@@ -11,7 +11,21 @@ hexdump /dev/aleatoire
 sudo insmod exemple_01.ko; cat /proc/devices | grep exemple_01; sudo rmmod exemple_01.ko
 248 exemple_01
 #example_02
-sudo insmod exemple_02.ko ; ls -l /dev/exemple_02; grep exemple_02 /proc/devices; sudo mknod /dev/exemple_02 c 248 0; ls -l /dev/exemple_02; cat /dev/exemple_02; sudo rmmod exemple_02.ko; sudo rm /dev/exemple_02; sync; dmesg | tail -n 5
+sudo insmod exemple_02.ko ; ls -l /dev/exemple_02; grep exemple_02 /proc/devices; sudo mknod /dev/exemple_02 c 248 0; ls -l /dev/exemple_02; cat /dev/exemple_02; sudo rmmod exemple_02.ko; sudo rm /dev/exemple_02; sync; dmesg | tail -n 2
+ls: impossible d'accéder à /dev/exemple_02: Aucun fichier ou dossier de ce type
+248 exemple_02
+crw-r--r-- 1 root root 248, 0 mai   24 12:26 /dev/exemple_02
+cat: /dev/exemple_02: Argument invalide
+[34237.197408] exemple_02 - exemple_open()
+[34237.197603] exemple_02 - exemple_release()
 #example_03
-ex=exemple_03; sudo insmod $ex.ko ; ls -l /sys/class/exemple*; ls /dev/$ex; sudo rmmod $ex.ko; dmesg | tail -n 5
+ex=exemple_03; sudo insmod $ex.ko ; ls -l /sys/class/exemple*; ls /dev/$ex; sudo cat /dev/$ex; sudo rmmod $ex.ko; dmesg | tail -n 2
+
+#example_04 misc (much simpler)
+ex=exemple_04; sudo insmod $ex.ko ; ls -l /sys/class/misc/*; ls /dev/$ex; sudo cat /dev/$ex; sudo rmmod $ex.ko; sync; dmesg | tail -n 2
+lrwxrwxrwx 1 root root 0 mai   24 12:29 /sys/class/misc/exemple_04 -> ../../devices/virtual/misc/exemple_04
+/dev/exemple_04
+cat: /dev/exemple_04: Argument invalide
+[34425.236527] exemple_04 - exemple_open()
+[34425.236809] exemple_04 - exemple_release()
 

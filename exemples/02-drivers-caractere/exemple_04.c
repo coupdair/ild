@@ -34,13 +34,13 @@
 
 static int __init exemple_init (void)
 {
-	return misc_register(& exemple_misc_driver);
+	return misc_register(&exemple_misc_driver);
 }
 
 
 static void __exit exemple_exit (void)
 {
-	misc_deregister(& exemple_misc_driver);
+	misc_deregister(&exemple_misc_driver);
 }
 
 
