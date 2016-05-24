@@ -193,4 +193,7 @@ PID=20072, PPID=6410, Name=cat
 [29859.437822] exemple_12 - exemple_read(ffff880144e0c500, 0000000001934000, 65536, 0) -> 31
 [29859.437878] exemple_12 - exemple_read(ffff880144e0c500, 0000000001934000, 65536, 31) -> 0
 [29859.437893] exemple_12 - exemple_release
+#load exemple_13
+sudo -s
+insmod exemple_13.ko; echo 54321 > /proc/exemple_13;cat /proc/exemple_13;sudo rmmod exemple_13.ko
 

@@ -17,14 +17,14 @@
 
 
 	static ssize_t exemple_read  (struct file *, char __user *, size_t, loff_t *);
-	static ssize_t exemple_write (struct file *, const char __user *, size_t, loff_t *);
+	static ssize_t example_write (struct file *, const char __user *, size_t, loff_t *);
 
 	static int exemple_value = 0;
 
 	static const struct file_operations exemple_proc_fops = {
 		.owner	= THIS_MODULE,
 		.read   = exemple_read,
-		.write  = exemple_write,
+		.write  = example_write,
 	};
 
 
@@ -48,7 +48,7 @@ static ssize_t exemple_read(struct file * filp, char __user * u_buffer, size_t m
 	char buffer[128];
 	int  nb;
 
-	snprintf(buffer, 128, "PID=%u, PPID=%u, Name=%s, Value=%d\n",
+	snprintf(buffer, 128, "PID=%u, PPID=%u, Name=%s, value=%d\n",
 	         current->pid, 
 	         current->real_parent->pid,
 	         current->comm,
@@ -67,15 +67,15 @@ static ssize_t exemple_read(struct file * filp, char __user * u_buffer, size_t m
 }
 
 
-static ssize_t exemple_write(struct file * filp, const char __user * u_buffer, size_t nb, loff_t * unused)
+static ssize_t example_write(struct file * filp, const char __user * u_buffer, size_t nb, loff_t * unused)
 {
-	char buffer[128];
+	char buffer[128];//could be strlen_user(; kmalloc(; ...; kfree(;
 
 	if (nb >= 128)
 		return -ENOMEM;
 	if (copy_from_user(buffer, u_buffer, nb) != 0)
 		return -EFAULT;
-	if (sscanf(buffer, "%d", &exemple_value) != 1)
+	if (sscanf(buffer, "%d", & exemple_value) != 1)
 		return -EINVAL;
 
 	return nb;
