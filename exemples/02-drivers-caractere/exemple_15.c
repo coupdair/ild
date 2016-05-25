@@ -21,9 +21,9 @@
 	#include "gpio_exemples.h"
 
 
-	static irqreturn_t exemple_handler(int irq, void * ident);
+	static irqreturn_t example_handler(int irq, void * ident);
 
-	static ssize_t exemple_read  (struct file * filp, char * buffer,
+	static ssize_t example_read  (struct file * filp, char * buffer,
 	                              size_t length, loff_t * offset);
 
 
@@ -57,9 +57,9 @@ static int __init exemple_init (void)
 		return err;
 	}
 
-	spin_lock_init(& exemple_buffer_spl);
+	spin_lock_init(&exemple_buffer_spl);
 
-	if ((err = request_irq(gpio_to_irq(EXEMPLE_GPIO_IN), exemple_handler,
+	if ((err = request_irq(gpio_to_irq(EXEMPLE_GPIO_IN), example_handler,
 	                       IRQF_SHARED | IRQF_TRIGGER_RISING,
 	                       THIS_MODULE->name, THIS_MODULE->name)) != 0) {
 		gpio_free(EXEMPLE_GPIO_IN);
@@ -84,26 +84,27 @@ static void __exit exemple_exit (void)
 }
 
 
-static ssize_t exemple_read(struct file * filp, char * buffer,
+static ssize_t example_read(struct file * filp, char * buffer,
                             size_t length, loff_t * offset)
 {
 	unsigned long irqs;
 	char k_buffer[80];
 
-	spin_lock_irqsave(& exemple_buffer_spl, irqs);
+	spin_lock_irqsave(&exemple_buffer_spl, irqs);
 
-	if (exemple_buffer_end == 0) {
-		spin_unlock_irqrestore(& exemple_buffer_spl, irqs);
+	if (exemple_buffer_end == 0) {//when full stop filling, i.e. fill once
+		spin_unlock_irqrestore(&exemple_buffer_spl, irqs);
 		return 0;
 	}
 
 	snprintf(k_buffer, 80, "%ld\n", exemple_buffer[0]);
 
-	exemple_buffer_end --;
-	if (exemple_buffer_end > 0)
-		memmove(exemple_buffer, & (exemple_buffer[1]), exemple_buffer_end * sizeof(unsigned long));
+	exemple_buffer_end--;
 
-	spin_unlock_irqrestore(& exemple_buffer_spl, irqs);
+	if (exemple_buffer_end > 0)
+		memmove(exemple_buffer, &(exemple_buffer[1]), exemple_buffer_end * sizeof(unsigned long));
+
+	spin_unlock_irqrestore(&exemple_buffer_spl, irqs);
 
 	if (length < (strlen(k_buffer) + 1))
 		return -ENOMEM;
@@ -115,16 +116,16 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
 }
 
 
-static irqreturn_t exemple_handler(int irq, void * ident)
+static irqreturn_t example_handler(int irq, void * ident)
 {
-	spin_lock(& exemple_buffer_spl);
+	spin_lock(&exemple_buffer_spl);
 
 	if (exemple_buffer_end < EXEMPLE_BUFFER_SIZE) {
 		exemple_buffer[exemple_buffer_end] = jiffies;
 		exemple_buffer_end ++;
 	}
 
-	spin_unlock(& exemple_buffer_spl);
+	spin_unlock(&exemple_buffer_spl);
 
 	return IRQ_HANDLED;
 }
