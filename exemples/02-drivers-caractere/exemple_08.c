@@ -22,10 +22,13 @@
 
 	static ssize_t exemple_read  (struct file * filp, char * buffer,
 	                              size_t length, loff_t * offset);
+	static ssize_t example_write (struct file * filp, const char * buffer,
+	                              size_t length, loff_t * offset);
 
 	static struct file_operations fops_exemple = {
 		.owner   =  THIS_MODULE,
 		.read    =  exemple_read,
+		.write   =  example_write,
 	};
 
 	static struct miscdevice exemple_misc_driver = {
@@ -42,6 +45,7 @@
 static int __init exemple_init (void)
 {
   strcpy(message,"driver\n");
+  size=strlen(message);
 	return misc_register(& exemple_misc_driver);
 }
 
@@ -61,12 +65,12 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
     printk(KERN_INFO "%s - %s() interrupted (i.e. signal received)\n", THIS_MODULE->name, __FUNCTION__);
     return -ERESTARTSYS;//return straightforward to treat an other signal
   }
+  size=strlen(message);
   if (length < size)
   {
     mutex_unlock(&mutex_message);
     return -ENOMEM;
   }
-  size=strlen(message);
   lg=size-(*offset);
   if(lg<=0)
   {
@@ -85,6 +89,28 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
   return lg;
 }
 
+static ssize_t example_write(struct file * filp, const char * buffer,
+                             size_t length, loff_t * offset)
+{
+  if (mutex_lock_interruptible(&mutex_message)!=0)
+  {
+    printk(KERN_INFO "%s - %s() interrupted (i.e. signal received)\n", THIS_MODULE->name, __FUNCTION__);
+    return -ERESTARTSYS;//return straightforward to treat an other signal
+  }
+  size=strlen(message);
+  if (length < size)
+  {
+    mutex_unlock(&mutex_message);
+    return -ENOMEM;
+  }
+  if (copy_from_user(message, buffer, size) != 0)
+  {
+    mutex_unlock(&mutex_message);
+    return -EFAULT;
+  }
+  mutex_unlock(&mutex_message);
+  return size;
+}
 
 	module_init(exemple_init);
 	module_exit(exemple_exit);

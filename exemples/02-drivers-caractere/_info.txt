@@ -179,4 +179,13 @@ insmod exemple_17.ko
 12348
 rmmod exemple_17.ko
 
+#
+sudo -s
+insmod exemple_08.ko
+cat /dev/exemple_08
+driver
+echo "write" > /dev/exemple_08
+bash: echo: erreur d'écriture : Ne peut allouer de la mémoire
+rmmod exemple_08.ko
+
 
