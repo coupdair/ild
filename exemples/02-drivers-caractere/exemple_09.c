@@ -16,14 +16,14 @@
 	#include <linux/module.h>
 	#include <asm/uaccess.h>
 
-	#include "gpio_exemples.h"
+	#include "gpio_exemples.h" //RaspBerryPi or BeagleBone ...
 
 
 	static ssize_t exemple_read  (struct file * filp, char * buffer,
-	                              size_t length, loff_t * offset);
+	                              size_t length, loff_t * offset);//push button
 
 	static ssize_t exemple_write (struct file * filp, const char * buffer,
-	                              size_t length, loff_t * offset);
+	                              size_t length, loff_t * offset);//LED
 
 	static struct file_operations fops_exemple = {
 		.owner   =  THIS_MODULE,
@@ -50,8 +50,8 @@ static int __init exemple_init (void)
 		return err;
 	}
 
-	if (((err = gpio_direction_input(EXEMPLE_GPIO_IN)) != 0)
-	 || ((err = gpio_direction_output(EXEMPLE_GPIO_OUT, 0)) != 0)) {
+	if (((err=gpio_direction_input(EXEMPLE_GPIO_IN)) != 0)
+	 || ((err=gpio_direction_output(EXEMPLE_GPIO_OUT, 0)) != 0)) {
 		gpio_free(EXEMPLE_GPIO_OUT);
 		gpio_free(EXEMPLE_GPIO_IN);
 		return err;
@@ -82,7 +82,7 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
 
 	if (length < 2)
 		return 0;
-	sprintf(k_buffer, "%d\n", gpio_get_value(EXEMPLE_GPIO_IN));
+	sprintf(k_buffer, "%d\n",gpio_get_value(EXEMPLE_GPIO_IN));
 	if (copy_to_user(buffer, k_buffer, 2) != 0)
 		return -EFAULT;
 
@@ -98,12 +98,12 @@ static ssize_t exemple_write(struct file * filp, const char * buffer,
 
 	if (length > 79)
 		return -EINVAL;
-	if (copy_from_user(k_buffer, buffer, length) != 0)
+	if (copy_from_user(k_buffer, buffer,length) != 0)
 		return -EFAULT;
-	if (sscanf(k_buffer, "%d", & val) != 1)
+	if (sscanf(k_buffer, "%d", &val) != 1)
 		return -EINVAL;
 
-	gpio_set_value(EXEMPLE_GPIO_OUT, val & 0x01);
+	gpio_set_value(EXEMPLE_GPIO_OUT, val&0x01);
 
 	return length;
 }
