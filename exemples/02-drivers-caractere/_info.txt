@@ -87,4 +87,14 @@ sudo rmmod exemple_08.ko
 dmesg | tail -n 1
 [45790.236333] exemple_08 - exemple_read() interrupted (signal received)
 
+#IO
+cat /proc/ioports 
+cat /proc/iomem 
+
+#BeagleBoneBlack
+ssh root@192.168.7.2
+cd ild/exemples/02-drivers-caractere/
+make
+
+
 
