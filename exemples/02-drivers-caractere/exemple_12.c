@@ -17,7 +17,7 @@
 
 	static irqreturn_t exemple_handler(int irq, void * ident);
 
-	static void exemple_tasklet_function(unsigned long unused);
+	static void example_tasklet_function(unsigned long unused);
 	static DECLARE_TASKLET(exemple_tasklet, exemple_tasklet_function, 0);
 
 
@@ -63,16 +63,16 @@ static void __exit exemple_exit (void)
 
 static irqreturn_t exemple_handler(int irq, void * ident)
 {
-	tasklet_schedule(& exemple_tasklet);
+	tasklet_schedule(&example_tasklet);
 	return IRQ_HANDLED;
 }
 
 
-static void exemple_tasklet_function(unsigned long inutilise)
+static void example_tasklet_function(unsigned long inutilise)
 {
 	static int value = 1;
 
-	gpio_set_value(EXEMPLE_GPIO_OUT, value);
+	gpio_set_value(EXEMPLE_GPIO_OUT, value);//toggle
 	value = 1 - value;
 }
 
