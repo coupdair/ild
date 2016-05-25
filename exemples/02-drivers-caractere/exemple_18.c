@@ -22,7 +22,7 @@ static int __init exemple_init (void)
 	struct page * pg;
 	unsigned int pfn;
 
-	buffer = kmalloc(256, GFP_KERNEL);
+	buffer=kmalloc(256, GFP_KERNEL);
 	if (buffer == NULL)
 		return -ENOMEM;
 
@@ -30,16 +30,16 @@ static int __init exemple_init (void)
 	       THIS_MODULE->name, buffer);
 
 	printk("%s: virt-to-phys() -> %llx\n",
-	       THIS_MODULE->name, (long long unsigned int) virt_to_phys(buffer));
+	       THIS_MODULE->name, (long long unsigned int)virt_to_phys(buffer));
 
-	pfn = virt_to_phys(buffer) >> PAGE_SHIFT;
+	pfn=virt_to_phys(buffer) >> PAGE_SHIFT;
 	printk("%s: pfn            -> %x\n",
 	       THIS_MODULE->name, pfn);
 
-	pg = pfn_to_page(pfn);
+	pg=pfn_to_page(pfn);
 	if (pg != NULL)
 		printk("%s: page_address   -> %p\n",
-		       THIS_MODULE->name, page_address(pg));
+		       THIS_MODULE->name,page_address(pg));
 
 	kfree(buffer);
 	return 0; 
