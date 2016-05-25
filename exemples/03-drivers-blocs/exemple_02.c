@@ -21,14 +21,14 @@
 
 	#define EXEMPLE_MINORS 7
 
-	#define EXEMPLE_SECTOR_SIZE 512
-	static int exemple_sectors = 4096;
+	#define EXEMPLE_SECTOR_SIZE 512   //512kB
+	static int exemple_sectors = 4096;//2MB
 	module_param_named(sectors, exemple_sectors, int, 0444);
 
-	static char * exemple_data = NULL;
-	static struct request_queue  * exemple_request_queue;
-	static struct gendisk        * exemple_gendisk;
-	static spinlock_t              exemple_spinlock;
+	static char * exemple_data=NULL;
+	static struct request_queue  *exemple_request_queue;
+	static struct gendisk        *exemple_gendisk;
+	static spinlock_t             exemple_spinlock;
 
 	static int  exemple_open    (struct block_device *, fmode_t);
 	static void exemple_release (struct gendisk *, fmode_t);
@@ -95,10 +95,10 @@ static int __init exemple_init (void)
 	if (exemple_sectors <= 0)
 		return -EINVAL;
 
-	exemple_data = vmalloc(exemple_sectors * EXEMPLE_SECTOR_SIZE);
+	exemple_data=vmalloc(exemple_sectors * EXEMPLE_SECTOR_SIZE);
 	if (exemple_data == NULL)
 		return -ENOMEM;
-	memset(exemple_data, 0, exemple_sectors * EXEMPLE_SECTOR_SIZE);
+	memset(exemple_data,0, exemple_sectors * EXEMPLE_SECTOR_SIZE);
 
 	ret = register_blkdev(exemple_major, THIS_MODULE->name);
 	if (ret < 0) {
@@ -109,17 +109,17 @@ static int __init exemple_init (void)
 	if (exemple_major == 0)
 		exemple_major = ret;
 
-	spin_lock_init(& exemple_spinlock);
+	spin_lock_init(&exemple_spinlock);
 
-	exemple_request_queue = blk_init_queue(exemple_request,
-	                                     & exemple_spinlock);
+	exemple_request_queue=blk_init_queue(exemple_request,
+	                                    &exemple_spinlock);
 	if (exemple_request_queue == NULL) {
 		unregister_blkdev(exemple_major, THIS_MODULE->name);
 		vfree(exemple_data);
 		return -ENOMEM;
 	}
 
-	exemple_gendisk = alloc_disk(EXEMPLE_MINORS);
+	exemple_gendisk=alloc_disk(EXEMPLE_MINORS);
 	if (exemple_gendisk == NULL) {
 		blk_cleanup_queue(exemple_request_queue);
 		unregister_blkdev(exemple_major, THIS_MODULE->name);
@@ -133,7 +133,7 @@ static int __init exemple_init (void)
 	snprintf(exemple_gendisk->disk_name, 32, THIS_MODULE->name);
 	set_capacity(exemple_gendisk, exemple_sectors);
 
-	add_disk(exemple_gendisk);
+	add_disk(exemple_gendisk); 
 
 	return 0;
 }
