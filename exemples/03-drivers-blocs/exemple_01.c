@@ -12,7 +12,7 @@
 	#include <linux/fs.h>
 
 
-	static int exemple_major = 0;
+	static int exemple_major=0;
 	module_param_named(major, exemple_major, int, 0444);
 
 
@@ -20,7 +20,7 @@ static int __init exemple_init (void)
 {
 	int ret;
 
-	ret = register_blkdev(exemple_major, THIS_MODULE->name);
+	ret=register_blkdev(exemple_major,THIS_MODULE->name);
 	if (ret < 0)
 		return ret;
 
@@ -33,7 +33,7 @@ static int __init exemple_init (void)
 
 static void __exit exemple_exit (void)
 {
-	unregister_blkdev(exemple_major, THIS_MODULE->name);
+	unregister_blkdev(exemple_major,THIS_MODULE->name);
 }
 
 
