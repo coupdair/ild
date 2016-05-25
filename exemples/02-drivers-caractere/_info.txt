@@ -189,7 +189,7 @@ bash: echo: erreur d'écriture : Ne peut allouer de la mémoire
 rmmod exemple_08.ko
 
 #memory allocation
-#exemple_18
+#exemple_18 ..., virt_to_phys, ...
 sudo insmod exemple_18.ko ; sudo rmmod exemple_18.ko; sync; dmesg | tail -n 4
 [66817.906106] exemple_18: kmalloc()      -> ffff880048994000
 [66817.906112] exemple_18: virt-to-phys() -> 48994000
@@ -200,4 +200,10 @@ sudo insmod exemple_18.ko ; sudo rmmod exemple_18.ko; sync; dmesg | tail -n 4
 [66875.209695] exemple_18: virt-to-phys() -> 144ea2800
 [66875.209697] exemple_18: pfn            -> 144ea2
 [66875.209699] exemple_18: page_address   -> ffff880144ea2000
+
+#exemple_19 mmap <=> remap_pfn_range
+sudo insmod exemple_19.ko 
+sudo ./test_mmap /dev/exemple_19
+sudo rmmod exemple_19.ko 
+
 

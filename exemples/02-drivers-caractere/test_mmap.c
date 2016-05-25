@@ -26,7 +26,11 @@ int main(int argc, char * argv[])
 		exit(1);
 	}
 
-	ptr = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+	ptr=mmap(NULL
+                , 4096 //one page
+                , PROT_READ|PROT_WRITE //access mode
+                , MAP_SHARED //shared
+                , fd, 0);
 	if (ptr == MAP_FAILED) {
 		perror("mmap");
 		exit(1);
@@ -34,7 +38,7 @@ int main(int argc, char * argv[])
 
 	while (1) {
 		fprintf(stderr, "%s", ptr);
-		usleep(100000); /* 1/10e s. */
+		usleep(100000); // sleep 0.1 s
 	}
 
 	munmap(ptr, 4096);

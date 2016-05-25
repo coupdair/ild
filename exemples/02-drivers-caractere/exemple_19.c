@@ -22,11 +22,11 @@
 	#include <asm/io.h>
 
 
-	static int  exemple_mmap (struct file * filp, struct vm_area_struct * vm);
+	static int  example_mmap(struct file * filp, struct vm_area_struct * vm);
 
 	static struct file_operations exemple_fops = {
 		.owner   =  THIS_MODULE,
-		.mmap    =  exemple_mmap,
+		.mmap    =  example_mmap, //call once
 	};
 
 	static struct miscdevice exemple_misc_driver = {
@@ -35,7 +35,7 @@
 		    .fops           = & exemple_fops,
 	};
 
-	static void exemple_timer_function (unsigned long arg);
+	static void exemple_timer_function(unsigned long arg);
 
 	struct timer_list exemple_timer;
 
@@ -47,14 +47,14 @@ static int __init exemple_init (void)
 	int err;
 	struct page * pg = NULL;
 
-	exemple_buffer = kmalloc(PAGE_SIZE, GFP_KERNEL);
+	exemple_buffer=kmalloc(PAGE_SIZE, GFP_KERNEL);
 	if (exemple_buffer == NULL)
 		return -ENOMEM;
 
 	exemple_buffer[0] = '\0';
 
-	pg = virt_to_page(exemple_buffer);
-	SetPageReserved(pg);
+	pg=virt_to_page(exemple_buffer);
+	SetPageReserved(pg);//do not swap
 
 	err =  misc_register(& exemple_misc_driver);
 	if (err != 0) {
@@ -67,7 +67,7 @@ static int __init exemple_init (void)
 	init_timer(& exemple_timer);
 	exemple_timer.function = exemple_timer_function;
 	exemple_timer.expires = jiffies + HZ;
-	add_timer(& exemple_timer);
+	add_timer(&exemple_timer);
 
 	return 0;
 }
@@ -88,18 +88,18 @@ static void __exit exemple_exit (void)
 }
 
 
-static int exemple_mmap (struct file * filp, struct vm_area_struct * vma)
+static int example_mmap (struct file * filp, struct vm_area_struct * vma)
 {
 	int err;
 
 	if ((unsigned long) (vma->vm_end - vma->vm_start) > PAGE_SIZE)
 		return -EINVAL;
 
-	err = remap_pfn_range(vma,
+	err=remap_pfn_range(vma,
 	                    (unsigned long) (vma->vm_start),
-	                    virt_to_phys(exemple_buffer) >> PAGE_SHIFT,
-	                    vma->vm_end - vma->vm_start,
-	                    vma->vm_page_prot);
+	                    virt_to_phys(exemple_buffer) >> PAGE_SHIFT,//map
+	                    vma->vm_end - vma->vm_start,//size
+	                    vma->vm_page_prot);//access mode
 	if (err != 0)
 		return -EAGAIN;
 
@@ -109,8 +109,8 @@ static int exemple_mmap (struct file * filp, struct vm_area_struct * vma)
 
 static void exemple_timer_function (unsigned long arg)
 {
-	sprintf(exemple_buffer, "\r%s - %s(): %lu", THIS_MODULE->name, __FUNCTION__, jiffies);
-	mod_timer(& exemple_timer, jiffies + HZ);
+	sprintf(exemple_buffer,"\r%s - %s(): %lu", THIS_MODULE->name, __FUNCTION__, jiffies);
+	mod_timer(&exemple_timer, jiffies + HZ);
 }
 
 
