@@ -72,7 +72,7 @@ static irqreturn_t example_handler(int irq, void * ident)
 static irqreturn_t example_thread(int irq, void * ident)
 {
   //Bottom Half
-	static int value = 1;
+	static int value = 1;//static initialisation: used in exemple 11, 12, 13, 14.
 	gpio_set_value(EXEMPLE_GPIO_OUT, value);//toggle
 
 	value = 1 - value;
