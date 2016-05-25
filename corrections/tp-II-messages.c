@@ -17,16 +17,16 @@
 
 	#include <asm/uaccess.h>
 
-	static ssize_t exemple_read  (struct file * filp, char * buffer,
+	static ssize_t example_read  (struct file * filp, char * buffer,
 	                              size_t length, loff_t * offset);
 
-	static ssize_t exemple_write (struct file * filp, const char * buffer,
+	static ssize_t example_write (struct file * filp, const char * buffer,
 	                              size_t length, loff_t * offset);
 
 	static struct file_operations fops_exemple = {
 		.owner   =  THIS_MODULE,
-		.read    =  exemple_read,
-		.write   =  exemple_write,
+		.read    =  example_read,
+		.write   =  example_write,
 	};
 
 	static struct miscdevice exemple_misc_driver = {
@@ -52,7 +52,7 @@ static void __exit exemple_exit (void)
 }
 
 
-static ssize_t exemple_read(struct file * filp, char * u_buffer,
+static ssize_t example_read(struct file * filp, char * u_buffer,
                             size_t length, loff_t * offset)
 {
 	int lg;
@@ -74,7 +74,7 @@ static ssize_t exemple_read(struct file * filp, char * u_buffer,
 }
 
 
-static ssize_t exemple_write(struct file * filp, const char * u_buffer,
+static ssize_t example_write(struct file * filp, const char * u_buffer,
                             size_t length, loff_t * offset)
 {
 	if (table_nb_messages == MSG_NB_MAX)
