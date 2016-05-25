@@ -87,10 +87,10 @@ static void __exit exemple_exit (void)
 static ssize_t example_read(struct file * filp, char * buffer,
                             size_t length, loff_t * offset)
 {
-	unsigned long irqs;
+	unsigned long irqs;//mask
 	char k_buffer[80];
 
-	spin_lock_irqsave(&exemple_buffer_spl, irqs);
+	spin_lock_irqsave(&exemple_buffer_spl, irqs);//save mask
 
 	if (exemple_buffer_end == 0) {//when full stop filling, i.e. fill once
 		spin_unlock_irqrestore(&exemple_buffer_spl, irqs);
@@ -104,7 +104,7 @@ static ssize_t example_read(struct file * filp, char * buffer,
 	if (exemple_buffer_end > 0)
 		memmove(exemple_buffer, &(exemple_buffer[1]), exemple_buffer_end * sizeof(unsigned long));
 
-	spin_unlock_irqrestore(&exemple_buffer_spl, irqs);
+	spin_unlock_irqrestore(&exemple_buffer_spl, irqs);//restore mask
 
 	if (length < (strlen(k_buffer) + 1))
 		return -ENOMEM;
