@@ -94,7 +94,7 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
 
 	while (exemple_buffer_end == 0) {
 		spin_unlock_irqrestore(& exemple_buffer_spl, irqs);
-		if (filp->f_flags & O_NONBLOCK)
+		if (filp->f_flags&O_NONBLOCK)///dev opened in NON blocking mode
 			return -EAGAIN;
 		if (wait_event_interruptible(exemple_buffer_wq,
 		                    (exemple_buffer_end != 0)) != 0)

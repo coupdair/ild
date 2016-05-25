@@ -157,11 +157,26 @@ cat /dev/exemple_15 #no event
 cat /dev/exemple_15
 cat /dev/exemple_15
 12347
+rmmod exemple_15.ko
 
 #example_16 wait queue
+insmod exemple_16.ko
 cat /dev/exemple_16 #wait for event
 12345
 12346
 12347
 12348
+rmmod exemple_16.ko
+
+#example_17 wait queue with(out) NON block
+insmod exemple_17.ko
+./cat_nonblock #wait for event and show progress wheel as non blocked
+12345
+12346
+|/-\
+12347
+|/-\|/-\
+12348
+rmmod exemple_17.ko
+
 

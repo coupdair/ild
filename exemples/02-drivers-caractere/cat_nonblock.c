@@ -23,7 +23,7 @@ void nonblocking_cat(int fd)
 	char * prompt = "|/-\\";
 	int i = 0;
 
-	fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) | O_NONBLOCK);
+	fcntl(fd, F_SETFL, fcntl(fd, F_GETFL)|O_NONBLOCK);
 
 	while ((n = read(fd,buffer, 4096)) != 0) {
 		if (n > 0) {
@@ -31,7 +31,7 @@ void nonblocking_cat(int fd)
 			continue;
 		}
 
-		write(STDOUT_FILENO, & (prompt[i]), 1);
+		write(STDOUT_FILENO, &(prompt[i]), 1);//write progress wheel
 		write(STDOUT_FILENO, "\b", 1);
 		i ++;
 		if (i == 4)
