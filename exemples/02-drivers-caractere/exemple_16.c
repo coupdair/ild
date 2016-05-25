@@ -23,9 +23,9 @@
 
 	#define EXEMPLE_BUFFER_SIZE 1024
 	static unsigned long exemple_buffer[EXEMPLE_BUFFER_SIZE];
-	static int           exemple_buffer_end = 0;
+	static int           exemple_buffer_end=0;
 	static spinlock_t    exemple_buffer_spl;
-	static DECLARE_WAIT_QUEUE_HEAD(exemple_buffer_wq);
+	static DECLARE_WAIT_QUEUE_HEAD(exemple_buffer_wq); 
 
 
 	static irqreturn_t exemple_handler(int irq, void * ident);
@@ -90,14 +90,16 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
 	char k_buffer[80];
 	unsigned long irqs;
 
-	spin_lock_irqsave(& exemple_buffer_spl, irqs);
+	spin_lock_irqsave(&exemple_buffer_spl, irqs);//lock for buffer size read
 
-	while (exemple_buffer_end == 0) {
-		spin_unlock_irqrestore(& exemple_buffer_spl, irqs);
-		if (wait_event_interruptible(exemple_buffer_wq,
-		                    (exemple_buffer_end != 0)) != 0)
-			return -ERESTARTSYS;
-		spin_lock_irqsave(& exemple_buffer_spl, irqs);
+	while (exemple_buffer_end==0)
+	{//(re)check if empty
+		spin_unlock_irqrestore(&exemple_buffer_spl, irqs);//first allow buffer access by others (e.g. handler)
+		if(wait_event_interruptible(exemple_buffer_wq
+                         ,(exemple_buffer_end != 0)) //condition of exit (NEEDED ! for atomicity)
+                   != 0)
+		  return -ERESTARTSYS;
+		spin_lock_irqsave(&exemple_buffer_spl, irqs);//relock
 	}
 
 	snprintf(k_buffer, 80, "%ld\n", exemple_buffer[0]);
@@ -106,13 +108,13 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
 		return -ENOMEM;
 	}
 
-	exemple_buffer_end --;
+	exemple_buffer_end--;
 	if (exemple_buffer_end > 0)
 		memmove(exemple_buffer, & (exemple_buffer[1]), exemple_buffer_end * sizeof(long int));
 
-	spin_unlock_irqrestore(& exemple_buffer_spl, irqs);
+	spin_unlock_irqrestore(&exemple_buffer_spl, irqs);
 
-	if (copy_to_user(buffer, k_buffer, strlen(k_buffer)+1) != 0)
+	if (copy_to_user(buffer, k_buffer,strlen(k_buffer)+1) != 0)
 		return -EFAULT;
 
 	return strlen(k_buffer)+1;
@@ -121,14 +123,14 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
 
 static irqreturn_t exemple_handler(int irq, void * ident)
 {
-	spin_lock(& exemple_buffer_spl);
+	spin_lock(&exemple_buffer_spl);
 
 	if (exemple_buffer_end < EXEMPLE_BUFFER_SIZE) {
 		exemple_buffer[exemple_buffer_end] = jiffies;
 		exemple_buffer_end ++;
 	}
-	spin_unlock(& exemple_buffer_spl);
-	wake_up_interruptible(& exemple_buffer_wq);
+	spin_unlock(&exemple_buffer_spl);
+	wake_up_interruptible(&exemple_buffer_wq);
 
 	return IRQ_HANDLED;
 }
