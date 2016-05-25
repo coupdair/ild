@@ -95,6 +95,36 @@ cat /proc/iomem
 ssh root@192.168.7.2
 cd ild/exemples/02-drivers-caractere/
 make
+insmod exemple_09.ko 
+echo 1 > /dev/exemple_09 #LED ON
+echo 0 > /dev/exemple_09 #LED OFF
+cat /dev/exemple_09 
+0 #push button free
+0
+0
+1 #push button press
+1
+1
+0 #push button release
+0
+##LED OFF on push button pressed
+tr '01' '10' < /dev/exemple_09 | dd bs=2 > /dev/exemple_09
+ls /sys/class/gpio/gpiochip64
+rmmod exemple_09.ko 
+##sys
+cd /sys/class/gpio/
+echo 53 > export #LED
+cd gpio53
+echo out > direction 
+cat value
+0
+echo 0 > value
+echo 1 > value
+cat value
+1
+echo 53 > unexport 
+ls
+export	gpiochip0  gpiochip32  gpiochip64  gpiochip96  unexport
 
 
 

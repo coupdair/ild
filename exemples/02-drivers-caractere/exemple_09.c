@@ -97,7 +97,7 @@ static ssize_t exemple_write(struct file * filp, const char * buffer,
 	int val;
 
 	if (length > 79)
-		return -EINVAL;
+		return -ENOMEM;
 	if (copy_from_user(k_buffer, buffer,length) != 0)
 		return -EFAULT;
 	if (sscanf(k_buffer, "%d", &val) != 1)
