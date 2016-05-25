@@ -132,6 +132,17 @@ sudo insmod exemple_10.ko
 dmesg | tail
 sudo rmmod exemple_10.ko
 
+#interrupt
+cat /proc/interrupts #one or multiple driver on interrupt, e.g. 2x on 17
+ 17:      85242       6590         95        516   IO-APIC-fasteoi   ath9k, mmc0
 
-
+#example_11 interrupt
+insmod exemple_11.ko
+cat /proc/interrupts  | grep exemple
+210:          0      GPIO   2  exemple_11
+#push button press 40 times
+cat /proc/interrupts  | grep exemple
+210:         39      GPIO   2  exemple_11
+rmmod exemple_11.ko
+##RPi: 7us interrupt catch
 

@@ -33,9 +33,9 @@
 		#define EXEMPLE_GPIO_OUT 24
 	#elif EXEMPLE_GPIO_MODE == EXEMPLE_BEAGLEBONE_BLACK
 		// Input on pin P8-07 (GPIO 66)
-		#define EXEMPLE_GPIO_IN  66
+		#define EXEMPLE_GPIO_IN  66 
 		// Output on LED 4 (GPIO 56)
-		#define EXEMPLE_GPIO_OUT 56
+		#define EXEMPLE_GPIO_OUT 56 
 	#elif EXEMPLE_GPIO_MODE == EXEMPLE_TERASIC_DE1_SOC
 		// Input on the push button
 		#define EXEMPLE_GPIO_IN  223

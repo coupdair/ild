@@ -37,9 +37,9 @@ static int __init exemple_init (void)
 		return err;
 	}
 
-	if ((err = request_irq(gpio_to_irq(EXEMPLE_GPIO_IN), exemple_handler,
-	                       IRQF_SHARED | IRQF_TRIGGER_RISING,
-	                       THIS_MODULE->name, THIS_MODULE->name)) != 0) {
+	if ((err = request_irq(gpio_to_irq(EXEMPLE_GPIO_IN), exemple_handler,//handler
+	                       IRQF_SHARED|IRQF_TRIGGER_RISING,//rising edge
+	                       THIS_MODULE->name, THIS_MODULE->name)) != 0) {//name, id (as ptr)
 		gpio_free(EXEMPLE_GPIO_OUT);
 		gpio_free(EXEMPLE_GPIO_IN);
 		return err;
@@ -61,7 +61,7 @@ static irqreturn_t exemple_handler(int irq, void * ident)
 	static int value = 1;
 	gpio_set_value(EXEMPLE_GPIO_OUT, value);
 
-	value = 1 - value;
+	value = 1 - value;//swap 0/1
 	return IRQ_HANDLED;
 }
 
