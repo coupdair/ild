@@ -29,7 +29,7 @@
 
 	static struct file_operations exemple_fops = {
 		.owner   =  THIS_MODULE,
-		.read    =  exemple_read,
+		.read    =  example_read,
 	};
 
 	static struct miscdevice exemple_misc_driver = {

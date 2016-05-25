@@ -18,7 +18,7 @@
 	static irqreturn_t exemple_handler(int irq, void * ident);
 
 	static void example_tasklet_function(unsigned long unused);
-	static DECLARE_TASKLET(exemple_tasklet, exemple_tasklet_function, 0);
+	static DECLARE_TASKLET(exemple_tasklet, example_tasklet_function, 0);
 
 
 static int __init exemple_init (void)
@@ -63,7 +63,7 @@ static void __exit exemple_exit (void)
 
 static irqreturn_t exemple_handler(int irq, void * ident)
 {
-	tasklet_schedule(&example_tasklet);
+	tasklet_schedule(&exemple_tasklet);
 	return IRQ_HANDLED;
 }
 
