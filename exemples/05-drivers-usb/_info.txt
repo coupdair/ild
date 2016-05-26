@@ -32,7 +32,7 @@ dmesg
 probe_exemple: Interrupt in  endpoint
 probe_exemple: Interrupt out endpoint
 
-#exemple_03
+#exemple_04 mutex
 echo 5 85 0 255   0 0 0 0 > /dev/velleman_0
 
 for
@@ -43,6 +43,12 @@ for
 for
   echo ... #echo process locked in write call
 #no sleep !
+grep -e exemple_mtx -e static -e wake -e exemple_out_wq exemple_04.c
+
+#exemple_05
+cat /dev/velleman_0
+64 0 127 128 1 2 3 4 #push buttons, ADC, counters
+
 
 
 
