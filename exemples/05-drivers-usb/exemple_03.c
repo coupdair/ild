@@ -52,7 +52,7 @@
 	};
 
 	static struct usb_class_driver exemple_usb_class_driver = {
-		.name       = "usb/velleman%d",
+		.name       = "usb/velleman%d", //name for /dev/velleman_0
 		.fops       = & exemple_file_operations,
 		.minor_base = 0,
 	};
@@ -179,7 +179,7 @@ static ssize_t exemple_write (struct file * file,
 		return -EINVAL;
 	}
 	/* On attend 8 chiffres decimaux à envoyer à la carte. */
-	err = (sscanf(buffer, "%d %d %d %d %d %d %d %d", &o0, &o1, &o2, &o3, &o4, &o5, &o6, &o7) != 8);
+	err = (sscanf(buffer, "%d %d %d %d %d %d %d %d", &o0, &o1, &o2, &o3, &o4, &o5, &o6, &o7)!=8);
 	/* Le buffer peut etre libere immediatement. */
 	kfree(buffer);
 	if (err)
@@ -198,7 +198,7 @@ static ssize_t exemple_write (struct file * file,
 	                 exemple_usb_device,
 	                 usb_sndintpipe(exemple_usb_device,
 					        exemple_out_endpoint->bEndpointAddress),
-	                 exemple_out_buffer,
+	                 exemple_out_buffer, 
 					 EXEMPLE_OUT_BUFFER_SIZE,
 					 exemple_write_callback,
 					 NULL, /* donnees privees non utilisees */
