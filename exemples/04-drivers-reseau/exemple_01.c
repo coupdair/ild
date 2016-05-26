@@ -16,7 +16,7 @@
 	#include <linux/etherdevice.h>
 
 
-	struct net_device * net_dev_ex = NULL;
+	struct net_device * net_dev_ex=NULL;
 
 
 static int exemple_open (struct net_device * net_dev)
@@ -24,6 +24,7 @@ static int exemple_open (struct net_device * net_dev)
 	printk(KERN_INFO "%s - %s(%p):\n",
 	       THIS_MODULE->name, __FUNCTION__, net_dev);
 
+  //MAC address
 	net_dev->dev_addr[0] = 0x00;
 	net_dev->dev_addr[1] = 0x12;
 	net_dev->dev_addr[2] = 0x34;
@@ -31,7 +32,7 @@ static int exemple_open (struct net_device * net_dev)
 	net_dev->dev_addr[4] = 0x78;
 	net_dev->dev_addr[5] = 0x00;
 
-	netif_start_queue(net_dev);
+	netif_start_queue(net_dev);//ready
 
 	return 0;
 }
@@ -42,7 +43,7 @@ static int exemple_stop (struct net_device * net_dev)
 	printk(KERN_INFO "%s - %s(%p)\n",
 	       THIS_MODULE->name, __FUNCTION__, net_dev);
 
-	netif_stop_queue(net_dev);
+	netif_stop_queue(net_dev);//down
 
 	return 0;
 }
@@ -53,7 +54,7 @@ static int exemple_start_xmit(struct sk_buff * sk_b, struct net_device * src)
 	printk(KERN_INFO "%s - %s(%p,%p)\n",
 	       THIS_MODULE->name, __FUNCTION__, sk_b, src);
 
-	dev_kfree_skb(sk_b);
+	dev_kfree_skb(sk_b);//free buffer as transmit done
 	return NETDEV_TX_OK;
 }
 
@@ -70,9 +71,9 @@ static void exemple_setup (struct net_device * net_dev)
 	printk(KERN_INFO "%s - %s(%p)\n",
 	       THIS_MODULE->name, __FUNCTION__, net_dev);
 
-	ether_setup(net_dev);
+	ether_setup(net_dev);//ethernet derivation
 
-	net_dev->netdev_ops = & exemple_netdev_ops;
+	net_dev->netdev_ops = &exemple_netdev_ops;
 }
 
 
