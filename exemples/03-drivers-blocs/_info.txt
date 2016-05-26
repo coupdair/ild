@@ -1,0 +1,56 @@
+#exemple_01 block
+sudo insmod exemple_01.ko 
+cat /proc/devices | grep exemple
+sudo rmmod exemple_01.ko 
+
+#exemple_02 block in memory
+sudo -s
+insmod exemple_02.ko
+ls /sys/block/exemple_02
+hexdump -v /dev/exemple_02 | less
+##raw
+echo HELLO > /dev/exemple_02
+hexdump -v /dev/exemple_02 | less
+0000000 4548 4c4c 0a4f 0000 0000 0000 0000 0000
+0000010 0000 0000 0000 0000 0000 0000 0000 0000
+##FS
+mkfs.ext2 /dev/exemple_02
+mount /dev/exemple_02 /mnt/
+ls -lha /mnt/
+total 17K
+drwxr-xr-x  3 root root 1,0K mai   26 09:25 .
+drwxr-xr-x 23 root root 4,0K juin   7  2015 ..
+drwx------  2 root root  12K mai   26 09:25 lost+found
+umount /mnt/
+rmmod exemple_02.ko 
+
+#exemple_03 hd geo = partition
+sudo -s
+insmod exemple_03.ko
+fdisk /dev/exemple_03
+n
+p
+1
+1
+2047
+n
+p
+2
+2048
+4095
+p
+w
+ls /dev/exemple_03p?
+/dev/exemple_03p1
+/dev/exemple_03p2
+mkfs.vfat /dev/exemple_03p1
+mkfs.ext4 /dev/exemple_03p1
+rw
+mkdir /mnt/p1
+mkdir /mnt/p2
+mount /dev/exemple_03p1 /mnt/p1
+mount /dev/exemple_03p2 /mnt/p2
+...
+rmmod exemple_03.ko 
+
+
