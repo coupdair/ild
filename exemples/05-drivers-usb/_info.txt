@@ -4,12 +4,26 @@
 
 #exemple_01
 lsusb
+##manual
 sudo insmod example_01.ko
-#plug
+###plug
 not supported  ?
 New device ... v
 call probe_exemple
-#unplug
+###unplug
 call disconnect_exemple
 sudo rmmod example_01.ko
+
+##autoload
+mv example_01.ko /lib/modules/3.13.0-53-generic/extra/
+sudo depmod
+###plug
+New device ... v
+call probe_exemple
+call usb_register ok
+###unplug
+call disconnect_exemple
+sudo rmmod example_01
+grep exemple /lib/modules/3.13.0-53-generic/modules.alias
+alias usb:v10CFp5500d*...in* exemple_01
 
