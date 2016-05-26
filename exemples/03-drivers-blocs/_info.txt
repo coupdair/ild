@@ -40,17 +40,28 @@ p
 4095
 p
 w
+q
 ls /dev/exemple_03p?
 /dev/exemple_03p1
 /dev/exemple_03p2
 mkfs.vfat /dev/exemple_03p1
-mkfs.ext4 /dev/exemple_03p1
+mkfs.ext2 /dev/exemple_03p2 #! 128 inodes
 rw
 mkdir /mnt/p1
 mkdir /mnt/p2
 mount /dev/exemple_03p1 /mnt/p1
 mount /dev/exemple_03p2 /mnt/p2
 ...
-rmmod exemple_03.ko 
+#scheduler
+ls /sys/block/exemple_03/queue/scheduler
+cat /sys/block/exemple_03/queue/scheduler 
+noop [deadline] cfq 
+echo noop > /sys/block/exemple_03/queue/scheduler
+cat /sys/block/exemple_03/queue/scheduler
+[noop] deadline cfq
+
+umount /mnt/p?
+rmmod exemple_03.ko
+
 
 
