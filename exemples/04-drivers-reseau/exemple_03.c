@@ -27,7 +27,7 @@
 		unsigned char data[ETH_DATA_LEN];
 		int data_len;
 
-		struct net_device_stats net_dev_stats;
+		struct net_device_stats net_dev_stats;//added for stat of NetDev
 	};
 
 	static irqreturn_t exemple_irq_tx_handler(int irq, void * irq_id, struct pt_regs * regs);
@@ -128,8 +128,6 @@ static int exemple_start_xmit(struct sk_buff * sk_b, struct net_device * src)
 	dst_priv->data_len = len;
 
 	exemple_irq_rx_handler (0, (void *) dst, NULL);
-	src_priv->net_dev_stats.tx_packets ++;
-	src_priv->net_dev_stats.tx_bytes += len;
 	exemple_irq_tx_handler (0, (void *) src, NULL);
 
 	return NETDEV_TX_OK;
@@ -155,8 +153,8 @@ static irqreturn_t exemple_irq_rx_handler(int irq, void * irq_id, struct pt_regs
 		return IRQ_HANDLED;
 	data = skb_put(sk_b, priv->data_len);
 	memcpy(data, priv->data, priv->data_len);
-	priv->net_dev_stats.rx_packets ++;
-	priv->net_dev_stats.rx_bytes += priv->data_len;
+	priv->net_dev_stats.rx_packets++;
+	priv->net_dev_stats.rx_bytes+=priv->data_len;
 
 	sk_b->dev = net_dev;
 	sk_b->protocol = eth_type_trans(sk_b, net_dev);
@@ -177,6 +175,8 @@ static irqreturn_t exemple_irq_tx_handler(int irq, void * irq_id, struct pt_regs
 
 	net_dev = (struct net_device *) irq_id;
 	priv = netdev_priv(net_dev);
+	priv->net_dev_stats.tx_packets++;
+	priv->net_dev_stats.tx_bytes+=priv->data_len;
 	if (priv == NULL)
 		return IRQ_NONE;
 
