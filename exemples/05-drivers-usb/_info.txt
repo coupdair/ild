@@ -1,0 +1,15 @@
+#aim: detection de periph et initialisation du dialogue
+
+## ! need BBB and WellMan
+
+#exemple_01
+lsusb
+sudo insmod example_01.ko
+#plug
+not supported  ?
+New device ... v
+call probe_exemple
+#unplug
+call disconnect_exemple
+sudo rmmod example_01.ko
+

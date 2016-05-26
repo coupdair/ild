@@ -15,11 +15,11 @@
 
 
 	/* Identification du peripherique gere par notre driver */
-	#define ID_VENDEUR_EXEMPLE   0x0000  /* Velleman  */
-	#define ID_PRODUIT_EXEMPLE   0x0000  /* Kit K8055 */
+	#define ID_VENDEUR_EXEMPLE   0x10cf  /* Velleman  */
+	#define ID_PRODUIT_EXEMPLE   0x5500  /* Kit K8055 */
 
 	static struct usb_device_id   id_table_exemple [] = {
-		{ USB_DEVICE(ID_VENDEUR_EXEMPLE, ID_PRODUIT_EXEMPLE) },
+		{ USB_DEVICE(ID_VENDEUR_EXEMPLE,ID_PRODUIT_EXEMPLE) },
 		{ } /* Par convention on termine par une entree vide */
 	};
 	MODULE_DEVICE_TABLE(usb, id_table_exemple);
@@ -31,10 +31,10 @@
 
 	/* Representation du pilote de peripherique */
 	static struct usb_driver usb_driver_exemple = {
-		.name       = "Velleman K8055",
-		.id_table   = id_table_exemple,
-		.probe      = probe_exemple,
-		.disconnect = disconnect_exemple,
+		.name       ="Velleman K8055",
+		.id_table   =id_table_exemple,
+		.probe      =probe_exemple, //device detection
+		.disconnect = disconnect_exemple, //device unplug
 	};
 
 
