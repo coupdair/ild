@@ -22,14 +22,13 @@
 	#include <linux/skbuff.h>
 
 
-	struct net_device * net_dev_ex_0 = NULL;
-	struct net_device * net_dev_ex_1 = NULL;
+	struct net_device * net_dev_ex_0=NULL;
+	struct net_device * net_dev_ex_1=NULL;
 
-	struct exemple_net_dev_priv {
-
-		struct sk_buff * sk_b; // Packet to send
-
-		unsigned char data[ETH_DATA_LEN]; // Data to send
+	struct exemple_net_dev_priv
+	{
+		struct sk_buff * sk_b;//Packet to send
+		unsigned char data[ETH_DATA_LEN];//Data received
 		int data_len;
 	};
 
@@ -49,12 +48,12 @@ static int exemple_open (struct net_device * net_dev)
 	net_dev->dev_addr[3] = 0x56;
 	net_dev->dev_addr[4] = 0x78;
 
-	if (net_dev == net_dev_ex_0)
+	if (net_dev==net_dev_ex_0)//MAC diff
 		net_dev->dev_addr[5] = 0x00;
 	else
 		net_dev->dev_addr[5] = 0x01;
 
-	netif_start_queue(net_dev);
+	netif_start_queue(net_dev);//ready
 
 	return 0;
 }
@@ -89,51 +88,53 @@ static int exemple_start_xmit(struct sk_buff * sk_b, struct net_device * src)
 	printk(KERN_INFO "%s -%s(%p, %p)\n",
 	       THIS_MODULE->name, __FUNCTION__, sk_b, src);
 
-	if (src == net_dev_ex_0)
-		dst = net_dev_ex_1;
+	if (src==net_dev_ex_0)
+		dst=net_dev_ex_1;
 	else
-		dst = net_dev_ex_0;
+		dst=net_dev_ex_0;
 
-	src_priv = netdev_priv(src);
-	dst_priv = netdev_priv(dst);
+	src_priv=netdev_priv(src);
+	dst_priv=netdev_priv(dst);
 
-	data = sk_b->data;
+	data = sk_b->data;//data ptr (used by each ether,IP,UDP,...)
 	len  = sk_b->len;
 
-	if (len < ETH_ZLEN) {
-		memset(short_packet, 0, ETH_ZLEN);
-		memcpy(short_packet, data, len);
+	if (len < ETH_ZLEN) {//too short frame (old Ethernet)
+		memset(short_packet, 0, ETH_ZLEN);//0 padding
+		memcpy(short_packet,data, len);
 		len = ETH_ZLEN;
 		data = short_packet;
 	}
 
-	if (len > ETH_DATA_LEN)
+	if (len > ETH_DATA_LEN)//too long frame
 		return -ENOMEM;
 
-	src->trans_start = jiffies; // for timeout...
+	src->trans_start = jiffies;//for timeout ... (managed by upper layers)
 
-	src_priv->sk_b = sk_b;
+	src_priv->sk_b = sk_b;//store for freeing
 
 
 	ip_header = (struct iphdr *) (data + sizeof(struct ethhdr));
 
+	//change subnet, e.g. 192.68.30.1  192.68.225.1
 	ptr_src = (unsigned char *) &(ip_header -> saddr);
 	ptr_dst = (unsigned char *) &(ip_header -> daddr);
 
-	ptr_src += 2;
-	* ptr_src = 255 - *ptr_src;
+	ptr_src += 2;//jump to 3rd byte of IP address
+	* ptr_src = 255 - *ptr_src;//change subnet
 	ptr_dst += 2;
 	* ptr_dst = 255 - *ptr_dst;
 
+	//update check sum
 	ip_header->check = 0;
 	ip_header->check = ip_fast_csum((unsigned char *)ip_header, ip_header->ihl);
 
-
+	//copy data to dst as dst_priv->
 	memcpy(dst_priv->data, data, len);
 	dst_priv->data_len = len;
 
+	//call IRQ receive and transmit (i.e. virtual IRQ)
 	exemple_irq_rx_handler (0, (void *) dst, NULL);
-
 	exemple_irq_tx_handler (0, (void *) src, NULL);
 
 	return NETDEV_TX_OK;
@@ -257,12 +258,12 @@ static int __init exemple_init(void)
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,17,0)
 	net_dev_ex_0 = alloc_netdev(sizeof(struct exemple_net_dev_priv), "ex%d", exemple_setup);
 #else
-	net_dev_ex_0 = alloc_netdev(sizeof(struct exemple_net_dev_priv), "ex%d", NET_NAME_UNKNOWN, exemple_setup);
+	net_dev_ex_0=alloc_netdev(sizeof(struct exemple_net_dev_priv), "ex%d", NET_NAME_UNKNOWN, exemple_setup);
 #endif
 	if (net_dev_ex_0 == NULL)
 		return -ENOMEM;
 
-	if (register_netdev(net_dev_ex_0) != 0) {
+	if (register_netdev(net_dev_ex_0)!=0) {
 		exemple_exit();
 		return -ENODEV;
 	}
@@ -270,14 +271,14 @@ static int __init exemple_init(void)
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,17,0)
 	net_dev_ex_1 = alloc_netdev(sizeof(struct exemple_net_dev_priv), "ex%d", exemple_setup);
 #else
-	net_dev_ex_1 = alloc_netdev(sizeof(struct exemple_net_dev_priv), "ex%d", NET_NAME_UNKNOWN, exemple_setup);
+	net_dev_ex_1=alloc_netdev(sizeof(struct exemple_net_dev_priv), "ex%d", NET_NAME_UNKNOWN, exemple_setup);
 #endif
 	if (net_dev_ex_1 == NULL) {
 		exemple_exit();
 		return -ENOMEM;
 	}
 
-	if (register_netdev(net_dev_ex_1) != 0) {
+	if (register_netdev(net_dev_ex_1)!=0) {
 		exemple_exit();
 		return -ENODEV;
 	}
