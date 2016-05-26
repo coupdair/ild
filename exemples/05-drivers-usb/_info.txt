@@ -27,3 +27,8 @@ sudo rmmod example_01
 grep exemple /lib/modules/3.13.0-53-generic/modules.alias
 alias usb:v10CFp5500d*...in* exemple_01
 
+#exemple_02
+dmesg
+probe_exemple: Interrupt in  endpoint
+probe_exemple: Interrupt out endpoint
+

@@ -36,7 +36,7 @@
 	};
 
 
-static int probe_exemple(struct usb_interface * intf,
+static int probe_exemple(struct usb_interface * intf, 
                   const struct usb_device_id  * dev_id)
 {
 	int i;
@@ -49,19 +49,19 @@ static int probe_exemple(struct usb_interface * intf,
 		endpoint_desc = & (host_intf->endpoint[i].desc);
 		if (endpoint_desc->bEndpointAddress & USB_DIR_IN) {
 			switch (endpoint_desc->bmAttributes & USB_ENDPOINT_XFERTYPE_MASK) {
-				case USB_ENDPOINT_XFER_BULK:
+				case USB_ENDPOINT_XFER_BULK :
 					printk(KERN_INFO "%s: Bulk in endpoint\n",
 					       THIS_MODULE->name);
 					break;
-				case USB_ENDPOINT_XFER_CONTROL:
+				case USB_ENDPOINT_XFER_CONTROL :
 					printk(KERN_INFO "%s: Control in endpoint\n",
 					       THIS_MODULE->name);
 					break;
-				case USB_ENDPOINT_XFER_INT:
+				case USB_ENDPOINT_XFER_INT :
 					printk(KERN_INFO "%s: Interrupt in endpoint\n",
 					       THIS_MODULE->name);
 					break;
-				case USB_ENDPOINT_XFER_ISOC:
+				case USB_ENDPOINT_XFER_ISOC :
 					printk(KERN_INFO "%s: Isochronous in endpoint\n",
 					       THIS_MODULE->name);
 					break;
