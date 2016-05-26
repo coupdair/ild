@@ -247,17 +247,17 @@ static ssize_t exemple_write (struct file * file,
 					 exemple_out_endpoint->bInterval);
 
 	err = usb_submit_urb(exemple_out_urb, GFP_KERNEL);
-	mutex_unlock(& exemple_mtx);
+	mutex_unlock(&exemple_mtx);
 	if (err == 0)
 		return length;
 	return err;
 }
 
 
-static void exemple_write_callback(struct urb * urb)
+static void exemple_write_callback(struct urb * urb) 
 {
-	exemple_out_busy = 0;
-	wake_up_interruptible(& exemple_out_wq);
+	exemple_out_busy=0;
+	wake_up_interruptible(&exemple_out_wq);
 }
 
 

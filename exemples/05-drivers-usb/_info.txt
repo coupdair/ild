@@ -39,5 +39,10 @@ for
   echo ...
   sleep 0.010
 
+#exemple_04 add lock for wait URB
+for
+  echo ... #echo process locked in write call
+#no sleep !
+
 
 
