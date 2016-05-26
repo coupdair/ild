@@ -38,17 +38,17 @@
 		.disconnect = exemple_disconnect,
 	};
 
-	static int     exemple_open    (struct inode *, struct file *);
-	static int     exemple_release (struct inode *, struct file *);
-	static ssize_t exemple_write   (struct file *, const char __user *,
+	static int     exemple_open   (struct inode *, struct file *);
+	static int     exemple_release(struct inode *, struct file *);
+	static ssize_t exemple_write  (struct file *, const char __user *,
 	                                size_t, loff_t *);
 	static void    exemple_write_callback (struct urb *);
 
 	static struct file_operations exemple_file_operations = {
 		.owner   = THIS_MODULE,
-		.open    = exemple_open,
-		.release = exemple_release,
-		.write   = exemple_write,
+		.open    =exemple_open,
+		.release =exemple_release,
+		.write   =exemple_write,
 	};
 
 	static struct usb_class_driver exemple_usb_class_driver = {
@@ -78,7 +78,7 @@ static int exemple_probe(struct usb_interface * intf,
 
 	host_intf = intf->cur_altsetting;
 	
-	/* Rechercher un endpoint INTERRUPT OUT */
+	//Rechercher un endpoint INTERRUPT OUT
 	for (i = 0; i < host_intf->desc.bNumEndpoints; i++) {
 		endpoint_desc = & (host_intf->endpoint[i].desc);
 		if (! (endpoint_desc->bEndpointAddress & USB_DIR_IN)) {
