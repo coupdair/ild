@@ -29,13 +29,13 @@
 	static struct file_operations fops_exemple = {
 		.owner   =  THIS_MODULE,
 		.read    =  exemple_read,
-		.unlocked_ioctl   =  example_ioctl,
+		.unlocked_ioctl=example_ioctl,
 	};
 
 	static struct miscdevice exemple_misc_driver = {
 		    .minor          = MISC_DYNAMIC_MINOR,
 		    .name           = THIS_MODULE->name,
-		    .fops           = & fops_exemple,
+		    .fops           = &fops_exemple,
 	};
 
 	static int exemple_ppid_flag = 1;
@@ -59,7 +59,7 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
 	char chaine[128];
 	int l;
 
-	if (exemple_ppid_flag) 
+	if(exemple_ppid_flag) 
 		snprintf(chaine, 128, "PID= %u, PPID= %u\n",
 		                current->pid,
 	                        current->real_parent->pid);
@@ -83,19 +83,20 @@ static ssize_t exemple_read(struct file * filp, char * buffer,
 
 
 static long example_ioctl (struct file * filp,
-                           unsigned int cmd,
-                           unsigned long arg)
+                           unsigned int cmd, 
+                           unsigned long arg )
 {
 	if (_IOC_TYPE(cmd)!=EXEMPLE_IOCTL_MAGIC)
 		return -ENOTTY;
 
-	switch(_IOC_NR(cmd)) {
+	switch(_IOC_NR(cmd))
+	{
 		case EXEMPLE_GET_PPID_FLAG:
-			if (copy_to_user((void *) arg, &exemple_ppid_flag, sizeof(exemple_ppid_flag)) != 0)
+			if (copy_to_user((void *) arg,&exemple_ppid_flag, sizeof(exemple_ppid_flag)) != 0)
 				return -EFAULT;
 			break;
 		case EXEMPLE_SET_PPID_FLAG:
-			if (copy_from_user(&exemple_ppid_flag, (void *) arg, sizeof(exemple_ppid_flag)) != 0)
+			if (copy_from_user(&exemple_ppid_flag,(void *) arg, sizeof(exemple_ppid_flag)) != 0)
 				return -EFAULT;
 			break;
 		default :
